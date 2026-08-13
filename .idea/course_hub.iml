@@ -64,6 +64,7 @@
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.13.1, ruby-4.0.6-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="et-orbi (v1.4.1, ruby-4.0.6-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.17.4, ruby-4.0.6-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="fiddle (v1.1.8, ruby-4.0.6-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fugit (v1.13.0, ruby-4.0.6-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.4.0, ruby-4.0.6-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.15.2, ruby-4.0.6-p0) [gem]" level="application" />
