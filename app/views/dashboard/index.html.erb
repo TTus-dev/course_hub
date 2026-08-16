@@ -1,0 +1,26 @@
+<h1>CourseHub Dashboard</h1>
+
+<p>Logged in as <%= current_user.name %></p>
+<p>Email: <%= current_user.email %></p>
+<p>Role: <%= current_user.role %></p>
+<%= button_to "Logout", logout_path, method: :delete %>
+
+<% if current_user.role == "student" %>
+  <ul >
+    <li>
+      My Courses
+    </li>
+    <li>
+      Browse Courses
+    </li>
+  </ul>
+<% elsif current_user.role == "teacher" %>
+  <ul >
+    <li>
+      Create Course
+    </li>
+    <li>
+      Manage Courses
+    </li>
+  </ul>
+<% end %>
