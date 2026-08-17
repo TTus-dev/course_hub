@@ -1,0 +1,18 @@
+﻿<h1>Your Courses</h1>
+
+<% if current_user.role == "student" %>
+  <li>
+    <%= button_to "Browse Courses", courses_list_path, method: :get %>
+  </li>
+<% elsif current_user.role == "teacher" %>
+  <li>
+    <%= button_to "Create Course", courses_new_path, method: :get %>
+  </li>
+<% end %>
+
+<% @courses.each do |course| %>
+  <div style="display: flex; flex-direction: row; gap: 2rem">
+    <span><%= course.name %></span>
+    <span><%= course.description %></span>
+  </div>
+<% end %>

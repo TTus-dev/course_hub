@@ -1,0 +1,12 @@
+﻿<h1>Enter course code</h1>
+
+<%= form_with url: courses_enroll_path(params[:id]), method: :post, data: { turbo: false } do |form| %>
+  <%= form.label :invite_code %>
+  <%= form.text_field :invite_code %>
+
+  <%= form.submit "Join course" %>
+<% end %>
+
+<% if @error %>
+  <p><%= @error %></p>
+<% end %>

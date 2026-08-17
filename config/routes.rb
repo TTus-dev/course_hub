@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
+  get "/my-courses", to: "courses#my_courses", as: "my_courses"
+  get "courses/list", to: "courses#index"
+  get "courses/:id", to: "courses#show", constraints: { id: /\d+/ }
+  get "courses/new", to: "courses#new"
+  post "courses/:id/enroll", to: "courses#create_enrollment", constraints: { id: /\d+/ }, as: "courses_enroll"
+  get "courses/:id/enroll", to: "courses#enroll", constraints: { id: /\d+/ }, as: "courses_invite_enroll"
+  post "courses", to: "courses#create"
+
   get "/dashboard", to: "dashboard#index"
+
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"

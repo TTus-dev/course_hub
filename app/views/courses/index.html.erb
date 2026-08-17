@@ -1,0 +1,20 @@
+<h1>Courses list</h1>
+
+<% @courses.each do |course| %>
+  <div style="display: flex; flex-direction: row; gap: 2rem">
+    <span>
+      <% if course.invite_code.present? %>
+        lock
+      <% end %>
+      <%= course.name %>
+    </span>
+    <span><%= course.description %></span>
+    <% if Enrollment.exists?(course_id: course.id, user_id: current_user.id) %>
+      Enrolled
+    <% elsif course.invite_code.present? %>
+      <%= button_to "Enroll", courses_invite_enroll_path(course.id), method: :get %>
+    <% else %>
+      <%= button_to "Enroll", courses_enroll_path(course.id), method: :post %>
+    <% end %>
+  </div>
+<% end %>

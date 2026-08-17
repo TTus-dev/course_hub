@@ -1,0 +1,20 @@
+<h1>Create new course</h1>
+
+<%= form_with url: courses_path, method: :post do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :invite_only %>
+    <%= form.check_box :invite_only %>
+  </div>
+
+  <%= form.submit "Create" %>
+<% end %>
