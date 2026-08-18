@@ -1,0 +1,5 @@
+class AddArchivedToCourses < ActiveRecord::Migration[8.1]
+  def change
+    add_column :courses, :archived, :boolean
+  end
+end

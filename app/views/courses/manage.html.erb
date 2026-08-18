@@ -1,0 +1,31 @@
+﻿<h1>Manage course <%= @course.name %></h1>
+
+<%= form_with url: courses_update_path, method: :patch do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name, value: @course.name %>
+  </div>
+
+  <div>
+    <%= form.label :description %>
+    <%= form.text_area :description, value: @course.description %>
+  </div>
+
+  <div>
+    <%= form.label :invite_only %>
+    <%= form.check_box :invite_only, checked: @course.invite_code.present? %>
+  </div>
+
+  <%= form.submit "Update" %>
+<% end %>
+
+<h2>Sessions list</h2>
+
+<% @course.class_sessions.each do |session| %>
+  <div>
+    <%= session.starts_at %>
+    <%= session.ends_at %>
+    <%= session.location_type %>
+  </div>
+<% end %>
+<%= button_to "Create session", new_class_session_path(@course.id), method: :get %>

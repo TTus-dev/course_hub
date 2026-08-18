@@ -1,11 +1,32 @@
 Rails.application.routes.draw do
-  get "/my-courses", to: "courses#my_courses", as: "my_courses"
-  get "courses/list", to: "courses#index"
-  get "courses/:id", to: "courses#show", constraints: { id: /\d+/ }
-  get "courses/new", to: "courses#new"
+  get "my-courses", to: "courses#my_courses", as: "my_courses" # Enrolled or owned courses
+
+  # Enrolled or owned courses (archived)
+  get "my-archived-courses", to: "courses#my_archived_courses", as: "my_archived_courses"
+
+  get "courses/list", to: "courses#index" # All courses
+  get "courses/:id", to: "courses#show", constraints: { id: /\d+/ } # Course details
+  get "courses/new", to: "courses#new" # New course page
+
+  # Enrollment without invite code
   post "courses/:id/enroll", to: "courses#create_enrollment", constraints: { id: /\d+/ }, as: "courses_enroll"
+
+  # Enrollment with invite code
   get "courses/:id/enroll", to: "courses#enroll", constraints: { id: /\d+/ }, as: "courses_invite_enroll"
+
+  # Create new course
   post "courses", to: "courses#create"
+
+  # Archive instead of delete
+  delete "courses/:id", to: "courses#archive", constraints: { id: /\d+/ }, as: "courses_archive"
+
+  patch "courses/reactivate/:id", to: "courses#reactivate", constraints: { id: /\d+/ }, as: "courses_reactivate"
+
+  get "courses/manage/:id", to: "courses#manage", as: "courses_manage" # Course edit page
+  patch "courses/:id", to: "courses#update", constraints: { id: /\d+/ }, as: "courses_update" # Update details
+
+  get "courses/:course_id/class_sessions/new", to: "class_sessions#new", as: "new_class_session"
+  post "courses/:course_id/class_sessions", to: "class_sessions#create", as: "class_sessions_create"
 
   get "/dashboard", to: "dashboard#index"
 

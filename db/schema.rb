@@ -10,11 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_17_143241) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_18_140748) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
+  create_table "class_sessions", force: :cascade do |t|
+    t.string "building_number"
+    t.string "city"
+    t.bigint "course_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.datetime "ends_at"
+    t.string "location_type"
+    t.string "meeting_url"
+    t.string "platform"
+    t.string "room"
+    t.datetime "starts_at"
+    t.string "street"
+    t.string "topic"
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_class_sessions_on_course_id"
+  end
+
   create_table "courses", force: :cascade do |t|
+    t.boolean "archived"
     t.datetime "created_at", null: false
     t.text "description"
     t.string "invite_code"
@@ -42,6 +61,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_17_143241) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "class_sessions", "courses"
   add_foreign_key "courses", "users", column: "teacher_id"
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "users"

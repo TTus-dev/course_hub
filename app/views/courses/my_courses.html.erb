@@ -14,5 +14,10 @@
   <div style="display: flex; flex-direction: row; gap: 2rem">
     <span><%= course.name %></span>
     <span><%= course.description %></span>
+    <% if current_user.role == "teacher" %>
+      <%= button_to "Edit Course", courses_manage_path(course.id), method: :get %>
+      <%= button_to "Archive Course", courses_archive_path(course.id), method: :delete %>
+      <%= course.invite_code %>
+    <% end %>
   </div>
 <% end %>

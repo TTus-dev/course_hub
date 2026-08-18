@@ -1,0 +1,16 @@
+﻿<h1>archived</h1>
+
+<% @courses.each do |course| %>
+  <div style="display: flex; flex-direction: row; gap: 2rem">
+    <span><%= course.name %></span>
+    <span><%= course.description %></span>
+    <% if current_user.role == "teacher" %>
+      <%= button_to "Reactivate",
+                    courses_reactivate_path(course.id),
+                    method: :patch,
+                    params: { archived: false },
+                    data: { turbo: false }
+      %>
+    <% end %>
+  </div>
+<% end %>
