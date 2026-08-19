@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'sessions#new'
+
   get "my-courses", to: "courses#my_courses", as: "my_courses" # Enrolled or owned courses
 
   # Enrolled or owned courses (archived)
