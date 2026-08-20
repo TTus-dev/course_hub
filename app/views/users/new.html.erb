@@ -1,16 +1,23 @@
 <div class="min-h-screen flex items-center justify-center bg-slate-900">
   <div class="flex flex-col gap-20">
-    <div class="flex text-4xl font-bold items-end justify-center text-slate-100">Welcome to CourseHub</div>
+    <div class="flex text-4xl font-bold items-end justify-center text-slate-100">Register new account</div>
     <div class="w-lg bg-slate-800 p-8 rounded-2xl">
-      <%= form_with url: login_path, method: :post do |form| %>
+      <%= form_with model: @user, url: register_path, method: :post do |form| %>
         <div class="flex flex-col gap-7 text-slate-100">
           <div class="flex flex-col gap-5">
             <div>
-              <% if notice %>
-                <div class="text-green-600">
-                  <%= notice %>
+              <% if @user&.errors&.any? %>
+                <div class="text-red-500">
+                  <% @user.errors.full_messages.each do |message| %>
+                    <span><%= message %></span>
+                  <% end %>
                 </div>
               <% end %>
+              <%= form.label :name %>
+              <%= form.text_field :name, class: "flex min-w-full border-1 px-2 py-1" %>
+            </div>
+
+            <div>
               <%= form.label :email %>
               <%= form.email_field :email, class: "flex min-w-full border-1 px-2 py-1" %>
             </div>
@@ -19,15 +26,20 @@
               <%= form.label :password %>
               <%= form.password_field :password, class: "flex min-w-full border-1 px-2 py-1" %>
             </div>
+
+            <div>
+              <%= form.label :confirm_password %>
+              <%= form.password_field :password_confirmation, class: "flex min-w-full border-1 px-2 py-1" %>
+            </div>
           </div>
 
           <div class="flex flex-col gap-4">
-            <%= form.submit "Log in",
+            <%= form.submit "Register",
                             class: "w-fit rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 cursor-pointer "
             %>
             <div>
-              Don't have an account?
-              <%= link_to "Register here", register_path, data: { turbo_prefetch: false },
+              Already have an account?
+              <%= link_to "Sign in here", root_path, data: { turbo_prefetch: false },
                           class: "text-blue-500 hover:text-blue-400"
               %>
             </div>

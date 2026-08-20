@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to dashboard_path
     else
-      render plain: "invalid email or password"
+      render plain: "Invalid email or password"
     end
   end
 
