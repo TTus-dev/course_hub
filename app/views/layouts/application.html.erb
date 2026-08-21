@@ -23,7 +23,14 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="min-h-screen">
-    <%= yield %>
+  <body class="min-h-screen bg-slate-900">
+  <div class="flex flex-row">
+    <% if current_user %>
+      <%= render "shared/sidebar" %>
+    <% end %>
+    <div class="flex-1">
+      <%= yield %>
+    </div>
+  </div>
   </body>
 </html>
