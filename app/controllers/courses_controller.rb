@@ -25,7 +25,7 @@ class CoursesController < ApplicationController
     @course_details = {
       name: course.name,
       description: course.description,
-      teacher: course.teacher,
+      teacher: course.teacher
     }
   end
 
