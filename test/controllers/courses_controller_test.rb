@@ -40,7 +40,7 @@ class CoursesControllerTest < ActionDispatch::IntegrationTest
     post courses_url, params: {
       course: {
         name: "Test Course",
-        description: "Test description",
+        description: "Test description"
       }
     }
     assert_redirected_to my_courses_path

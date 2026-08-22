@@ -1,7 +1,11 @@
 class ClassSessionsController < ApplicationController
   def new
-    @course = current_user.taught_courses.find(params[:course_id])
-    @class_session = @course.class_sessions.new
+    @taught_courses = current_user.taught_courses
+    @class_session = ClassSession.new
+
+    if params[:course_id]
+      @class_session.course_id = params[:course_id]
+    end
   end
 
   def create

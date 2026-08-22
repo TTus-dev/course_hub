@@ -1,0 +1,43 @@
+<div class="rounded-xl border border-slate-700 bg-slate-800 shadow-sm p-4">
+  <p class="text-sm font-medium text-slate-400">
+    <%= class_session.course.name %>
+  </p>
+
+  <% if current_user.role == "student" %>
+    <p class="text-sm font-medium text-slate-400">
+      Instructor:
+      <span class="text-slate-300">
+        <%= class_session.course.teacher.name %>
+      </span>
+    </p>
+  <% end %>
+
+  <p class="text-xl font-semibold text-slate-100 mt-2">
+    <%= class_session.topic %>
+  </p>
+
+  <p class="line-clamp-2 text-sm text-slate-400 mt-1">
+    <%= class_session.description %>
+  </p>
+
+  <div class="flex flex-col gap-0.5 text-sm mt-5">
+    <p><%= class_session_date(class_session) %></p>
+
+    <p><%= class_session_time(class_session) %></p>
+
+    <% if class_session.location_type == "remote" %>
+      <p>
+        <%= link_to class_session.platform,
+                    class_session.meeting_url,
+                    target: "_blank",
+                    class: "text-blue-400 hover:text-blue-300"
+        %>
+      </p>
+    <% else %>
+      <p>
+        <%= class_session.city %>, <%= class_session.street %> <%= class_session.building_number %>,
+        Room <%= class_session.room %>
+      </p>
+    <% end %>
+  </div>
+</div>

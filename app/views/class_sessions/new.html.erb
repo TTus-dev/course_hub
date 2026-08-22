@@ -1,72 +1,100 @@
-<h1>ClassSessions#new</h1>
-<p>Find me in app/views/class_sessions/new.html.erb</p>
-
-<%= form_with url: class_sessions_create_path(@course.id), method: :post do |form| %>
-  <div>
-    <%= form.label :topic %>
-    <%= form.text_field :topic %>
+<div class="flex flex-1 flex-col gap-15 max-w-2xl p-6 text-slate-100">
+  <div class="p-2">
+    <p class="text-3xl font-semibold">Create new class</p>
   </div>
 
-  <div>
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
+  <%= form_with url: class_sessions_create_path, method: :post, class: "flex flex-col gap-5" do |form| %>
+    <div class="flex flex-col gap-2">
+      <%= form.label :course_id, class: "text-slate-300" %>
+      <%= form.collection_select :course_id, @taught_courses, :id, :name, {},
+                                 class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100
+                                 outline-none focus:border-slate-500" %>
+    </div>
 
-  <div>
-    <%= form.label :starts_at %>a
-    <%= form.datetime_local_field :starts_at %>
-  </div>
+    <div class="flex flex-col gap-2">
+      <%= form.label :topic, class: "text-slate-300" %>
+      <%= form.text_field :topic, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100
+                                 outline-none focus:border-slate-500" %>
+    </div>
 
-  <div>
-    <%= form.label :ends_at %>
-    <%= form.datetime_local_field :ends_at %>
-  </div>
+    <div class="flex flex-col gap-2">
+      <%= form.label :description, class: "text-slate-300" %>
+      <%= form.text_area :description, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100
+                                 outline-none focus:border-slate-500" %>
+    </div>
 
-  <div data-controller="location">
+    <div class="flex flex-col gap-2">
+      <%= form.label :starts_at %>
+      <%= form.datetime_local_field :starts_at, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2
+      text-slate-100 outline-none focus:border-slate-500" %>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <%= form.label :ends_at %>
+      <%= form.datetime_local_field :ends_at, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2
+      text-slate-100 outline-none focus:border-slate-500" %>
+    </div>
+
+    <div data-controller="location" class="flex flex-col gap-5">
+      <div class="flex flex-col gap-2">
+        <%= form.label :location_type %>
+        <%= form.select :location_type,
+                        [["Physical", "physical"], ["Remote", "remote"]],
+                        {},
+                        data: {
+                          location_target: "type",
+                          action: "change->location#toggle"
+                        }, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100
+                        outline-none focus:border-slate-500" %>
+      </div>
+
+      <div data-location-target="physical" class="flex flex-col gap-5">
+        <div class="flex flex-col gap-2">
+          <%= form.label :city %>
+          <%= form.text_field :city, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2
+          text-slate-100 outline-none focus:border-slate-500" %>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <%= form.label :street %>
+          <%= form.text_field :street, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2
+          text-slate-100 outline-none focus:border-slate-500" %>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <%= form.label :building_number %>
+          <%= form.text_field :building_number, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2
+          text-slate-100 outline-none focus:border-slate-500" %>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <%= form.label :room %>
+          <%= form.text_field :room, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2
+          text-slate-100 outline-none focus:border-slate-500" %>
+        </div>
+      </div>
+
+      <div data-location-target="remote" class="flex flex-col gap-5">
+        <div class="flex flex-col gap-2">
+          <%= form.label :platform %>
+          <%= form.text_field :platform, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2
+          text-slate-100 outline-none focus:border-slate-500" %>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <%= form.label :meeting_url %>
+          <%= form.url_field :meeting_url, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2
+          text-slate-100 outline-none focus:border-slate-500" %>
+        </div>
+      </div>
+    </div>
     <div>
-      <%= form.label :location_type %>
-      <%= form.select :location_type,
-                      [["Physical", "physical"], ["Remote", "remote"]],
-                      {},
-                      data: {
-                        location_target: "type",
-                        action: "change->location#toggle"
-                      } %>
+      <%= form.submit "Create class", class: "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium
+      text-slate-900 bg-slate-200 hover:bg-slate-800" %>
+
+      <%= link_to "Cancel", params[:course_id].present? ? courses_show_path(params[:course_id]) : dashboard_path,
+                  class: "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium hover:bg-slate-800" %>
     </div>
+  <% end %>
 
-    <div data-location-target="physical">
-      <div>
-        <%= form.label :city %>
-        <%= form.text_field :city %>
-      </div>
-
-      <div>
-        <%= form.label :street %>
-        <%= form.text_field :street %>
-      </div>
-
-      <div>
-        <%= form.label :building_number %>
-        <%= form.text_field :building_number %>
-      </div>
-
-      <div>
-        <%= form.label :room %>
-        <%= form.text_field :room %>
-      </div>
-    </div>
-
-    <div data-location-target="remote">
-      <div>
-        <%= form.label :platform %>
-        <%= form.text_field :platform %>
-      </div>
-
-      <div>
-        <%= form.label :meeting_url %>
-        <%= form.url_field :meeting_url %>
-      </div>
-    </div>
-  </div>
-  <%= form.submit "Create class" %>
-<% end %>
+</div>

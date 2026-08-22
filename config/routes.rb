@@ -27,8 +27,8 @@ Rails.application.routes.draw do
   get "courses/manage/:id", to: "courses#manage", as: "courses_manage" # Course edit page
   patch "courses/:id", to: "courses#update", constraints: { id: /\d+/ }, as: "courses_update" # Update details
 
-  get "courses/:course_id/class_sessions/new", to: "class_sessions#new", as: "new_class_session"
-  post "courses/:course_id/class_sessions", to: "class_sessions#create", as: "class_sessions_create"
+  get "class_sessions/new", to: "class_sessions#new", as: "new_class_session"
+  post "class_sessions", to: "class_sessions#create", as: "class_sessions_create"
 
   get "/dashboard", to: "dashboard#index"
 

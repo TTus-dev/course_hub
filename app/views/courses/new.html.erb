@@ -1,20 +1,34 @@
-<h1>Create new course</h1>
-
-<%= form_with url: courses_path, method: :post do |form| %>
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+<div class="flex flex-1 flex-col gap-15 p-6 text-slate-100">
+  <div class="p-2">
+    <p class="text-3xl font-semibold">Create new course</p>
   </div>
 
-  <div>
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
+  <%= form_with url: courses_path, method: :post, class: "flex max-w-2xl flex-col gap-5 text-md" do |form| %>
+    <div class="flex flex-col gap-2">
+      <%= form.label :name, class: "text-slate-300" %>
+      <%= form.text_field :name,
+                          class: "rounded-lg border border-slate-700 bg-slate-800 focus:border-slate-500 px-3 py-2"%>
+    </div>
 
-  <div>
-    <%= form.label :invite_only %>
-    <%= form.check_box :invite_only %>
-  </div>
+    <div class="flex flex-col gap-2">
+      <%= form.label :description, class: "text-slate-300" %>
+      <%= form.text_area :description, rows: 5,
+                         class: "rounded-lg border border-slate-700 bg-slate-800 focus:border-slate-500 px-3 py-2"%>
+    </div>
 
-  <%= form.submit "Create" %>
-<% end %>
+    <div class="flex flex-col items-start gap-3">
+      <%= form.label :invite_only, class: "text-slate-300"%>
+      <%= form.check_box :invite_only,
+                         class: "rounded border-slate-700 bg-slate-800"%>
+    </div>
+
+    <div class="flex flex-row items-start gap-3 text-slate-300 border-t border-slate-800 pt-6">
+      <%= form.submit "Create course",
+                      class: "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-900
+                      bg-slate-200 hover:bg-slate-800" %>
+
+      <%= link_to "Cancel", my_courses_path,
+                  class: "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium hover:bg-slate-800" %>
+    </div>
+  <% end %>
+</div>

@@ -1,15 +1,39 @@
-<h1>CourseHub Dashboard</h1>
+<div class="flex flex-1 flex-col gap-15 p-6 text-slate-100">
+  <div class="p-2">
+    <p class="text-3xl font-semibold">Welcome back, <%= current_user.name %></p>
+  </div>
 
-<p>Logged in as <%= current_user.name %></p>
-<p>Email: <%= current_user.email %></p>
-<p>Role: <%= current_user.role %></p>
-<%= button_to "Logout", logout_path, method: :delete %>
+  <div class="flex flex-1 flex-col justify-between">
+    <div class="flex flex-col gap-3">
+      <p class="text-2xl font-semibold">Class schedule</p>
 
-<ul >
-  <li>
-    <%= button_to "My active Courses", my_courses_path, method: :get %>
-  </li>
-  <li>
-    <%= button_to "My archival Courses", my_archived_courses_path, method: :get %>
-  </li>
-</ul>
+      <div class="grid grid-cols-2 gap-4 w-fit">
+
+        <% @upcoming_classes.each do |class_session| %>
+          <%= render "dashboard/class_session_card", class_session: class_session %>
+        <% end %>
+
+      </div>
+    </div>
+
+    <% if current_user.role == "teacher" %>
+    <div class="flex flex-col gap-4">
+      <p class="text-2xl font-semibold">Quick actions</p>
+
+      <div class="flex flex-row gap-3">
+        <div>
+          <%= link_to "+ New course", courses_new_path,
+                      class: "flex min-w-40 items-center justify-center rounded-xl border border-slate-700
+                      bg-slate-800 hover:bg-slate-700 px-3 py-3" %>
+        </div>
+
+        <div>
+          <%= link_to "+ New class", new_class_session_path,
+                      class: "flex min-w-40 items-center justify-center rounded-xl border border-slate-700
+                      bg-slate-800 hover:bg-slate-700 px-3 py-3" %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
