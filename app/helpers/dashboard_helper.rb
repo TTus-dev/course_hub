@@ -1,5 +1,4 @@
 module DashboardHelper
-
   def class_session_date(class_session)
     start_date = class_session.starts_at
     end_date = class_session.ends_at
@@ -21,5 +20,4 @@ module DashboardHelper
       "#{start_time.strftime("%H:%M")} - #{end_time.strftime("%H:%M")}"
     end
   end
-
 end
