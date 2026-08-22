@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  description: MyText
+ruby_basics:
+  name: Ruby Basics
+  description: Learn Ruby
+  teacher: teacher
 
-two:
-  name: MyString
-  description: MyText
+rails_models:
+  name: Rails Models
+  description: Learn Rails models
+  teacher: teacher

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get "my-archived-courses", to: "courses#my_archived_courses", as: "my_archived_courses"
 
   get "courses/list", to: "courses#index" # All courses
-  get "courses/:id", to: "courses#show", constraints: { id: /\d+/ } # Course details
+  get "courses/:id", to: "courses#show", constraints: { id: /\d+/ }, as: "courses_show" # Course details
   get "courses/new", to: "courses#new" # New course page
 
   # Enrollment without invite code

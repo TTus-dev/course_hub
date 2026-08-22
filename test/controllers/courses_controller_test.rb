@@ -2,22 +2,47 @@ require "test_helper"
 
 class CoursesControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get courses_index_url
+    post login_path, params: {
+      email: users(:teacher).email,
+      password: "password"
+    }
+
+    get courses_list_url
     assert_response :success
   end
 
   test "should get show" do
-    get courses_show_url
+    post login_path, params: {
+      email: users(:teacher).email,
+      password: "password"
+    }
+
+    get courses_show_url(courses(:ruby_basics))
     assert_response :success
   end
 
   test "should get new" do
+    post login_path, params: {
+      email: users(:teacher).email,
+      password: "password"
+    }
+
     get courses_new_url
     assert_response :success
   end
 
   test "should get create" do
-    get courses_create_url
-    assert_response :success
+    post login_path, params: {
+      email: users(:teacher).email,
+      password: "password"
+    }
+
+    post courses_url, params: {
+      course: {
+        name: "Test Course",
+        description: "Test description",
+      }
+    }
+    assert_redirected_to my_courses_path
   end
 end

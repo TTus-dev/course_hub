@@ -1,7 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  course: one
+  course: ruby_basics
   starts_at: 2026-08-18 15:32:39
   ends_at: 2026-08-18 15:32:39
   location_type: MyString
@@ -13,7 +13,7 @@ one:
   meeting_url: MyString
 
 two:
-  course: two
+  course: rails_models
   starts_at: 2026-08-18 15:32:39
   ends_at: 2026-08-18 15:32:39
   location_type: MyString
