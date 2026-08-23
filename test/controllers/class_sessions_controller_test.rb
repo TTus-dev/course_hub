@@ -18,6 +18,7 @@ class ClassSessionsControllerTest < ActionDispatch::IntegrationTest
     }
 
     post class_sessions_create_url(courses(:ruby_basics).id, params: {
+      course_id: courses(:ruby_basics).id,
       topic: "Test Topic",
       description: "Test Description",
       platform: "teams",
