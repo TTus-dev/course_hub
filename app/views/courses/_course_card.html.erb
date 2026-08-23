@@ -1,0 +1,39 @@
+<% show_enrollment = local_assigns.fetch(:show_enrollment, false) %>
+
+<div class="flex flex-col gap-4 w-80 rounded-xl border border-slate-700 bg-slate-800 shadow-sm p-4 justify-between text-slate-100">
+  <div>
+    <p class="text-sm text-slate-400">
+      <%= course.invite_code.present? ? "Invite only" : "Public course" %>
+    </p>
+
+    <p class="text-xl">
+      <%= course.name %>
+    </p>
+
+    <p class="text-sm text-slate-400">
+      Instructor:
+      <span class="text-slate-300">
+        <%= course.teacher.name %>
+      </span>
+    </p>
+
+    <p class="min-w-0 line-clamp-3 wrap-break-word text-sm mt-1">
+      <%= course.description %>
+    </p>
+  </div>
+
+  <div class="flex flex-row gap-0.5 text-sm justify-between items-center">
+
+    <%= link_to "View course",
+                courses_show_path(course.id),
+                class: "w-fit rounded-lg border border-slate-700 px-3 py-2 text-sm hover:bg-slate-700
+                hover:text-slate-100" %>
+
+    <% if current_user.role == "student" && show_enrollment &&
+          Enrollment.exists?(course_id: course.id, user_id: current_user.id) %>
+      <p class="text-sm text-slate-400 text-center">
+        Enrolled
+      </p>
+    <% end %>
+  </div>
+</div>

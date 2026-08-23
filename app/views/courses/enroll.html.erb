@@ -1,12 +1,23 @@
-﻿<h1>Enter course code</h1>
+﻿<div class="flex flex-col gap-5 w-full p-6 text-slate-100">
+  <p class="text-3xl font-semibold">Enter course code for: <%= @course.name %></p>
 
-<%= form_with url: courses_enroll_path(params[:id]), method: :post, data: { turbo: false } do |form| %>
-  <%= form.label :invite_code %>
-  <%= form.text_field :invite_code %>
+  <%= form_with url: courses_enroll_path(params[:id]), method: :post, data: { turbo: false },
+                class: "flex flex-col gap-5 max-w-40" do |form| %>
+    <div class="flex flex-col gap-1">
+      <%= form.label :invite_code, "Course code",
+                     class: "text-sm text-slate-300" %>
 
-  <%= form.submit "Join course" %>
-<% end %>
+      <%= form.text_field :invite_code,
+                          class: "rounded-lg border border-slate-700 bg-slate-800
+                                  px-3 py-2 outline-none focus:border-slate-500" %>
+    </div>
 
-<% if @error %>
-  <p><%= @error %></p>
-<% end %>
+    <% if @error %>
+      <p class="text-sm text-red-400"><%= @error %></p>
+    <% end %>
+
+    <%= form.submit "Join course",
+                    class: "w-fit rounded-lg bg-slate-200 px-4 py-2 text-sm
+                            font-medium text-slate-900 hover:bg-slate-300" %>
+  <% end %>
+</div>

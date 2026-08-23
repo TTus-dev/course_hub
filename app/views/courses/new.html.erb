@@ -13,7 +13,8 @@
     <div class="flex flex-col gap-2">
       <%= form.label :description, class: "text-slate-300" %>
       <%= form.text_area :description, rows: 5,
-                         class: "rounded-lg border border-slate-700 bg-slate-800 focus:border-slate-500 px-3 py-2"%>
+                         class: "resize-none rounded-lg border border-slate-700 bg-slate-800 focus:border-slate-500
+                         px-3 py-2"%>
     </div>
 
     <div class="flex flex-col items-start gap-3">
@@ -24,11 +25,12 @@
 
     <div class="flex flex-row items-start gap-3 text-slate-300 border-t border-slate-800 pt-6">
       <%= form.submit "Create course",
-                      class: "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-900
-                      bg-slate-200 hover:bg-slate-800" %>
+                      class: "rounded-lg border border-slate-700 bg-slate-200 px-4 py-2 text-sm font-medium
+                      text-slate-900 hover:bg-slate-400" %>
 
       <%= link_to "Cancel", my_courses_path,
-                  class: "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium hover:bg-slate-800" %>
+                  class: "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300
+                  hover:bg-slate-800 hover:text-slate-100" %>
     </div>
   <% end %>
 </div>

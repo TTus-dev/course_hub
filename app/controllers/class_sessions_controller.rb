@@ -6,6 +6,10 @@ class ClassSessionsController < ApplicationController
     if params[:course_id]
       @class_session.course_id = params[:course_id]
     end
+
+    now = Time.current
+    @class_session.starts_at = (now + 1.hour).change(min: 0)
+    @class_session.ends_at = @class_session.starts_at + 2.hours
   end
 
   def create

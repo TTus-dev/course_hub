@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   # Enrollment with invite code
   get "courses/:id/enroll", to: "courses#enroll", constraints: { id: /\d+/ }, as: "courses_invite_enroll"
 
+  # Leave course
+  delete "courses/:id/leave", to: "courses#leave_course", constraints: { id: /\d+/ }, as: "courses_leave"
+
   # Create new course
   post "courses", to: "courses#create"
 

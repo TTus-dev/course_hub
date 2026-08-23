@@ -3,7 +3,8 @@
     <p class="text-3xl font-semibold">Create new class</p>
   </div>
 
-  <%= form_with url: class_sessions_create_path, method: :post, class: "flex flex-col gap-5" do |form| %>
+  <%= form_with model: @class_session, url: class_sessions_create_path, method: :post,
+                class: "flex flex-col gap-5" do |form| %>
     <div class="flex flex-col gap-2">
       <%= form.label :course_id, class: "text-slate-300" %>
       <%= form.collection_select :course_id, @taught_courses, :id, :name, {},
@@ -14,13 +15,13 @@
     <div class="flex flex-col gap-2">
       <%= form.label :topic, class: "text-slate-300" %>
       <%= form.text_field :topic, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100
-                                 outline-none focus:border-slate-500" %>
+      outline-none focus:border-slate-500" %>
     </div>
 
     <div class="flex flex-col gap-2">
       <%= form.label :description, class: "text-slate-300" %>
-      <%= form.text_area :description, class: "rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100
-                                 outline-none focus:border-slate-500" %>
+      <%= form.text_area :description, class: "resize-none rounded-lg border border-slate-700 bg-slate-800 px-3 py-2
+      text-slate-100 outline-none focus:border-slate-500" %>
     </div>
 
     <div class="flex flex-col gap-2">
@@ -89,11 +90,12 @@
       </div>
     </div>
     <div>
-      <%= form.submit "Create class", class: "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium
-      text-slate-900 bg-slate-200 hover:bg-slate-800" %>
+      <%= form.submit "Create class", class: "rounded-lg border border-slate-700 bg-slate-200 px-4 py-2 text-sm
+      font-medium text-slate-900 hover:bg-slate-400" %>
 
       <%= link_to "Cancel", params[:course_id].present? ? courses_show_path(params[:course_id]) : dashboard_path,
-                  class: "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium hover:bg-slate-800" %>
+                  class: "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300
+                  hover:bg-slate-800 hover:text-slate-100" %>
     </div>
   <% end %>
 

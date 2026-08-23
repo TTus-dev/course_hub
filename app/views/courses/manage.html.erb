@@ -1,31 +1,140 @@
-﻿<h1>Manage course <%= @course.name %></h1>
+﻿<div class="flex w-full flex-col p-6 justify-between text-slate-100">
+  <div class="flex flex-col gap-8">
+    <div>
+      <p class="text-3xl font-semibold">
+        Manage course
+      </p>
 
-<%= form_with url: courses_update_path, method: :patch do |form| %>
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name, value: @course.name %>
+      <p class="mt-1 text-sm text-slate-400">
+        <%= @course.name %>
+      </p>
+    </div>
+
+    <div class="max-w-2xl rounded-xl border border-slate-700 bg-slate-800 p-6 shadow-sm">
+      <p class="text-xl font-semibold">
+        Course settings
+      </p>
+
+      <%= form_with url: courses_update_path(@course.id),
+                    method: :patch,
+                    class: "mt-5 flex flex-col gap-5" do |form| %>
+
+        <div class="flex flex-col gap-1">
+          <%= form.label :name,
+                         class: "text-sm font-medium text-slate-300" %>
+
+          <%= form.text_field :name,
+                              value: @course.name,
+                              class: "rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 outline-none
+                              focus:border-slate-500" %>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <%= form.label :description,
+                         class: "text-sm font-medium text-slate-300" %>
+
+          <%= form.text_area :description,
+                             value: @course.description,
+                             rows: 5,
+                             class: "resize-none rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 outline-none
+                             focus:border-slate-500" %>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <%= form.check_box :invite_only,
+                             checked: @course.invite_code.present?,
+                             class: "rounded border-slate-600 bg-slate-900" %>
+
+          <%= form.label :invite_only,
+                         "Invite only",
+                         class: "text-sm text-slate-300" %>
+        </div>
+
+        <% if @course.invite_code.present? %>
+          <div class="rounded-lg border border-slate-700 bg-slate-900 p-3">
+            <p class="text-xs font-medium text-slate-500">
+              Invite code
+            </p>
+
+            <p class="font-mono">
+              <%= @course.invite_code %>
+            </p>
+          </div>
+        <% end %>
+
+        <div>
+          <%= form.submit "Save changes",
+                          class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-300" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="max-w-4xl">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xl font-semibold">
+            Class sessions
+          </p>
+
+          <p class="mt-1 text-sm text-slate-400">
+            Manage the classes belonging to this course.
+          </p>
+        </div>
+
+        <%= button_to "Create session",
+                      new_class_session_path(@course.id),
+                      method: :get,
+                      class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-300" %>
+      </div>
+
+      <div class="mt-4 flex flex-col gap-3">
+        <% @upcoming_sessions.each do |session| %>
+          <div class="flex items-center justify-between rounded-xl border border-slate-700 bg-slate-800 p-4">
+
+            <div class="flex flex-col gap-1">
+              <p class="font-medium text-slate-100">
+                <%= session.topic %>
+              </p>
+
+              <p class="text-sm text-slate-400">
+                <%= session.starts_at %>
+                –
+                <%= session.ends_at %>
+              </p>
+
+              <p class="text-sm text-slate-500">
+                <%= session.location_type %>
+              </p>
+            </div>
+
+            <div class="flex gap-2">
+              <%= button_to "Edit",
+                            my_courses_path,
+                            method: :get,
+                            class: "rounded-lg border border-slate-700 px-3 py-2 text-sm hover:bg-slate-700" %>
+
+              <%= button_to "Delete",
+                            my_courses_path,
+                            method: :get,
+                            class: "rounded-lg border border-red-900 px-3 py-2 text-sm text-red-400 hover:bg-red-950" %>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @course.class_sessions.empty? %>
+          <p class="rounded-xl border border-slate-700 bg-slate-800 p-4
+                    text-sm text-slate-400">
+            No class sessions yet.
+          </p>
+        <% end %>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :description %>
-    <%= form.text_area :description, value: @course.description %>
+  <div class="flex gap-3 border-t border-slate-800 pt-6">
+    <%= link_to "Back to course",
+                courses_show_path(@course.id),
+                class: "rounded-lg border border-slate-700 px-4 py-2 text-sm
+                        hover:bg-slate-700" %>
   </div>
-
-  <div>
-    <%= form.label :invite_only %>
-    <%= form.check_box :invite_only, checked: @course.invite_code.present? %>
-  </div>
-
-  <%= form.submit "Update" %>
-<% end %>
-
-<h2>Sessions list</h2>
-
-<% @course.class_sessions.each do |session| %>
-  <div>
-    <%= session.starts_at %>
-    <%= session.ends_at %>
-    <%= session.location_type %>
-  </div>
-<% end %>
-<%= button_to "Create session", new_class_session_path(@course.id), method: :get %>
+</div>

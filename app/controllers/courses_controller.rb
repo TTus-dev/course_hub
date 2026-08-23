@@ -1,6 +1,15 @@
 class CoursesController < ApplicationController
   def index
-    @courses = Course.all
+    visibilities = Array(params[:visibility])
+
+    @courses =
+      if visibilities.empty? || visibilities.size == 2
+        Course.all
+      elsif visibilities == [ "public" ]
+        Course.where(invite_code: nil)
+      else
+        Course.where.not(invite_code: nil)
+      end
   end
 
   def my_courses
@@ -20,13 +29,15 @@ class CoursesController < ApplicationController
   end
 
   def show
-    course = Course.find(params[:id])
+    @course = Course.find(params[:id])
 
-    @course_details = {
-      name: course.name,
-      description: course.description,
-      teacher: course.teacher
-    }
+    @upcoming_classes = @course.class_sessions
+                               .where("starts_at >= ?", Time.current)
+                               .order(:starts_at)
+
+    if current_user.role == "student"
+      @enrollment = @course.enrollments.find_by(user_id: current_user.id)
+    end
   end
 
   def new
@@ -63,17 +74,19 @@ class CoursesController < ApplicationController
 
   def manage
     @course = current_user.taught_courses.find(params[:id])
+
+    @upcoming_sessions = @course.class_sessions
+                                .where("starts_at > ?", Time.current)
+                                .order(:starts_at)
   end
 
   def update
     course = current_user.taught_courses.find(params[:id])
 
-    if course.invite_code.present? && params[:invite_only] == "0"
-      inv_code = nil
-    elsif !course.invite_code.present? && params[:invite_only] == "1"
-      inv_code = SecureRandom.hex(5).upcase
+    if params[:invite_only] == "1"
+      inv_code = course.invite_code.presence || SecureRandom.hex(5).upcase
     else
-      inv_code = course.invite_code
+      inv_code = nil
     end
 
     course.update(
@@ -83,22 +96,35 @@ class CoursesController < ApplicationController
       invite_code: inv_code
     )
 
-    redirect_to my_courses_path
+    redirect_to courses_show_path(course.id)
   end
 
   def create_enrollment
-    course = Course.find(params[:id])
+    @course = Course.find(params[:id])
 
-    if course.invite_code == params[:invite_code]
-      Enrollment.create(user_id: current_user.id, course_id: course.id)
-
-      redirect_to my_courses_path
-    else
-      @error = "Invalid invite code"
-      render :enroll
+    if @course.invite_code.present?
+      if @course.invite_code != params[:invite_code]
+        @error = "Invalid invite code"
+        return render :enroll, status: :unprocessable_entity
+      end
     end
+
+    Enrollment.create!(
+      user_id: current_user.id,
+      course_id: @course.id
+    )
+
+    redirect_to my_courses_path
   end
 
   def enroll
+    @course = Course.find(params[:id])
+  end
+
+  def leave_course
+    enrollment = current_user.enrollments.find_by!(course_id: params[:id])
+    enrollment.destroy
+
+    redirect_to my_courses_path
   end
 end

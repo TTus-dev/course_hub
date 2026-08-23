@@ -1,23 +1,13 @@
-﻿<h1>Your Courses</h1>
-
-<% if current_user.role == "student" %>
-  <li>
-    <%= button_to "Browse Courses", courses_list_path, method: :get %>
-  </li>
-<% elsif current_user.role == "teacher" %>
-  <li>
-    <%= button_to "Create Course", courses_new_path, method: :get %>
-  </li>
-<% end %>
-
-<% @courses.each do |course| %>
-  <div style="display: flex; flex-direction: row; gap: 2rem">
-    <span><%= course.name %></span>
-    <span><%= course.description %></span>
-    <% if current_user.role == "teacher" %>
-      <%= button_to "Edit Course", courses_manage_path(course.id), method: :get %>
-      <%= button_to "Archive Course", courses_archive_path(course.id), method: :delete %>
-      <%= course.invite_code %>
-    <% end %>
+﻿<div class="flex w-full flex-col gap-10 p-6 text-slate-100">
+  <div>
+    <p class="text-3xl font-semibold">My Courses</p>
   </div>
-<% end %>
+
+  <div class="flex flex-1 flex-col justify-between">
+    <div class="flex flex-wrap gap-4">
+      <% @courses.each do |course| %>
+        <%= render "courses/course_card", course: course %>
+      <% end %>
+    </div>
+  </div>
+</div>

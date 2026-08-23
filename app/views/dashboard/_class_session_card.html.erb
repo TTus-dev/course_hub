@@ -1,24 +1,26 @@
-<div class="rounded-xl border border-slate-700 bg-slate-800 shadow-sm p-4">
-  <p class="text-sm font-medium text-slate-400">
-    <%= class_session.course.name %>
-  </p>
-
-  <% if current_user.role == "student" %>
+<div class="flex flex-col gap-4 w-80 rounded-xl border border-slate-700 bg-slate-800 shadow-sm p-4 justify-between">
+  <div>
     <p class="text-sm font-medium text-slate-400">
-      Instructor:
-      <span class="text-slate-300">
-        <%= class_session.course.teacher.name %>
-      </span>
+      <%= class_session.course.name %>
     </p>
-  <% end %>
 
-  <p class="text-xl font-semibold text-slate-100 mt-2">
-    <%= class_session.topic %>
-  </p>
+    <% if current_user.role == "student" %>
+      <p class="text-sm font-medium text-slate-400">
+        Instructor:
+        <span class="text-slate-300">
+          <%= class_session.course.teacher.name %>
+        </span>
+      </p>
+    <% end %>
 
-  <p class="line-clamp-2 text-sm text-slate-400 mt-1">
-    <%= class_session.description %>
-  </p>
+    <p class="min-w-0 line-clamp-2 wrap-break-word text-xl font-semibold text-slate-100 mt-2">
+      <%= class_session.topic %>
+    </p>
+
+    <p class="min-w-0 line-clamp-2 wrap-break-word text-sm text-slate-400 mt-1">
+      <%= class_session.description %>
+    </p>
+  </div>
 
   <div class="flex flex-col gap-0.5 text-sm mt-5">
     <p><%= class_session_date(class_session) %></p>
@@ -34,7 +36,7 @@
         %>
       </p>
     <% else %>
-      <p>
+      <p class="line-clamp-2">
         <%= class_session.city %>, <%= class_session.street %> <%= class_session.building_number %>,
         Room <%= class_session.room %>
       </p>

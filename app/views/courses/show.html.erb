@@ -1,5 +1,98 @@
-<h1>Courses details</h1>
+<div class="flex flex-col w-full p-6 text-slate-100 justify-between">
+  <div class="flex flex-col gap-5">
+    <div>
+      <p class="text-3xl font-semibold"><%= @course.name %></p>
+      <div class="text-sm text-slate-400">
+        <span>
+          <%= @course.invite_code.present? ? "Private course" : "Public course" %>
+        </span>
 
-<div>
+        <p>
+          Instructor:
+          <span>
+            <%= @course.teacher.name %>
+          </span>
+        </p>
 
+        <% if current_user == @course.teacher && @course.invite_code.present? %>
+          <p class="mt-2">
+            Invite code:
+            <span class="font-mono text-slate-200">
+              <%= @course.invite_code %>
+            </span>
+          </p>
+        <% end %>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-xl font-semibold">
+        Description
+      </p>
+
+      <p class="whitespace-pre-wrap wrap-break-word text-slate-400">
+        <%= @course.description %>
+      </p>
+    </div>
+
+    <div>
+      <p class="text-xl font-semibold">Upcoming classes</p>
+
+      <% if @upcoming_classes.any? %>
+        <div class="mt-4 flex flex-wrap gap-4">
+          <% @upcoming_classes.each do |class_session| %>
+            <%= render "dashboard/class_session_card",
+                       class_session: class_session %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="mt-3 text-sm text-slate-400">
+          No upcoming classes.
+        </p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="flex gap-3 border-t border-slate-800 pt-6">
+    <% if current_user == @course.teacher %>
+
+      <%= link_to "Manage course",
+                  courses_manage_path(@course.id),
+                  class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium
+                          text-slate-900 hover:bg-slate-300" %>
+
+    <% elsif current_user.role == "student" && !@course.archived? %>
+
+      <% if @enrollment %>
+
+        <%= button_to "Leave course",
+                      courses_leave_path(@course.id),
+                      method: :delete,
+                      class: "rounded-lg border border-red-900 px-4 py-2 text-sm
+                              text-red-400 hover:bg-red-950" %>
+
+      <% elsif @course.invite_code.present? %>
+
+        <%= link_to "Enter invite code",
+                    courses_invite_enroll_path(@course.id),
+                    class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium
+                            text-slate-900 hover:bg-slate-300" %>
+
+      <% else %>
+
+        <%= button_to "Enroll",
+                      courses_enroll_path(@course.id),
+                      method: :post,
+                      class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium
+                              text-slate-900 hover:bg-slate-300" %>
+
+      <% end %>
+
+    <% end %>
+
+    <%= link_to "Back",
+                courses_list_path,
+                class: "rounded-lg border border-slate-700 px-4 py-2 text-sm
+                        hover:bg-slate-700" %>
+  </div>
 </div>
