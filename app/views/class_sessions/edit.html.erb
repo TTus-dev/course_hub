@@ -1,33 +1,36 @@
-<div class="flex w-full flex-col p-6 text-slate-100">
+<div class="flex w-full flex-col p-6 text-slate-100 justify-between">
   <div class="flex flex-col gap-8">
+
     <div>
       <p class="text-3xl font-semibold">
-        Create class
+        Edit class
       </p>
 
       <p class="mt-1 text-sm text-slate-400">
-        Create a new class session.
+        <%= @class_session.topic %>
       </p>
     </div>
 
     <div class="max-w-2xl rounded-xl border border-slate-700 bg-slate-800 p-6">
+
       <p class="text-xl font-semibold">
         Class details
       </p>
 
       <%= render "form",
                  class_session: @class_session,
-                 submit_text: "Create class" %>
+                 submit_text: "Save changes" %>
 
     </div>
+
   </div>
 
   <div class="mt-8 flex gap-3 border-t border-slate-800 pt-6">
-    <%= link_to "Cancel",
-                params[:course_id].present? ?
-                  courses_manage_path(params[:course_id]) :
-                  dashboard_path,
+
+    <%= link_to "Back to class",
+                class_session_path(@class_session),
                 class: "rounded-lg border border-slate-700 px-4 py-2 text-sm
                         hover:bg-slate-700" %>
+
   </div>
 </div>

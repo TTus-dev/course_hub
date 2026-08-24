@@ -50,18 +50,6 @@
                          class: "text-sm text-slate-300" %>
         </div>
 
-        <% if @course.invite_code.present? %>
-          <div class="rounded-lg border border-slate-700 bg-slate-900 p-3">
-            <p class="text-xs font-medium text-slate-500">
-              Invite code
-            </p>
-
-            <p class="font-mono">
-              <%= @course.invite_code %>
-            </p>
-          </div>
-        <% end %>
-
         <div>
           <%= form.submit "Save changes",
                           class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-300" %>
@@ -81,8 +69,8 @@
           </p>
         </div>
 
-        <%= button_to "Create session",
-                      new_class_session_path(@course.id),
+        <%= link_to "Create session",
+                      new_class_session_path(course_id: @course.id),
                       method: :get,
                       class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-300" %>
       </div>
@@ -108,14 +96,18 @@
             </div>
 
             <div class="flex gap-2">
+              <%= link_to "View",
+                          class_session_path(session.id),
+                          class: "rounded-lg border border-slate-700 px-3 py-2 text-sm hover:bg-slate-700" %>
+
               <%= button_to "Edit",
-                            my_courses_path,
+                            edit_class_session_path(session.id),
                             method: :get,
                             class: "rounded-lg border border-slate-700 px-3 py-2 text-sm hover:bg-slate-700" %>
 
               <%= button_to "Delete",
-                            my_courses_path,
-                            method: :get,
+                            class_session_destroy_path,
+                            method: :delete,
                             class: "rounded-lg border border-red-900 px-3 py-2 text-sm text-red-400 hover:bg-red-950" %>
             </div>
           </div>

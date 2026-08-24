@@ -36,62 +36,115 @@
     </div>
 
     <div>
-      <p class="text-xl font-semibold">Upcoming classes</p>
+      <details class="group">
+        <summary class="text-xl font-semibold">
+          Students
+        </summary>
 
-      <% if @upcoming_classes.any? %>
-        <div class="mt-4 flex flex-wrap gap-4">
-          <% @upcoming_classes.each do |class_session| %>
-            <%= render "dashboard/class_session_card",
-                       class_session: class_session %>
+        <div class="mt-4 w-fit flex flex-col gap-2">
+          <% if @students.any? %>
+            <% @students.each do |student| %>
+              <div class="rounded-lg border border-slate-700 bg-slate-800 px-4 py-3">
+                <p class="text-sm font-medium text-slate-200">
+                  <%= student.name %>
+                </p>
+                <p class="text-sm text-slate-400">
+                  <%= student.email %>
+                </p>
+              </div>
+            <% end %>
+          <% else %>
+            <p class="text-sm text-slate-400">
+              No students enrolled yet.
+            </p>
           <% end %>
         </div>
-      <% else %>
-        <p class="mt-3 text-sm text-slate-400">
-          No upcoming classes.
-        </p>
-      <% end %>
+      </details>
+    </div>
+
+    <div class="flex flex-col gap-5">
+      <details open class="group">
+        <summary class="cursor-pointer text-xl font-semibold select-none">
+          Upcoming classes
+        </summary>
+
+
+        <div class="mt-4 flex flex-wrap gap-4">
+          <% if @upcoming_classes.any? %>
+            <% @upcoming_classes.each do |class_session| %>
+              <%= render "dashboard/class_session_card",
+                         class_session: class_session %>
+            <% end %>
+          <% else %>
+            <p class="text-sm text-slate-400">
+              No upcoming classes.
+            </p>
+          <% end %>
+        </div>
+      </details>
+
+      <details class="group">
+        <summary class="cursor-pointer text-xl font-semibold select-none">
+          Past classes
+        </summary>
+
+        <div class="mt-4 flex flex-wrap gap-4">
+          <% if @past_classes.any? %>
+            <% @past_classes.each do |class_session| %>
+              <%= render "dashboard/class_session_card",
+                         class_session: class_session %>
+            <% end %>
+          <% else %>
+            <p class="mt-4 text-sm text-slate-400">
+              No past classes.
+            </p>
+          <% end %>
+        </div>
+      </details>
     </div>
   </div>
 
   <div class="flex gap-3 border-t border-slate-800 pt-6">
-    <% if current_user == @course.teacher %>
+    <% unless @course.archived? %>
+      <% if current_user == @course.teacher %>
 
-      <%= link_to "Manage course",
-                  courses_manage_path(@course.id),
-                  class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium
+        <%= link_to "Manage course",
+                    courses_manage_path(@course.id),
+                    class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium
                           text-slate-900 hover:bg-slate-300" %>
 
-    <% elsif current_user.role == "student" && !@course.archived? %>
+      <% elsif current_user.role == "student" && !@course.archived? %>
 
-      <% if @enrollment %>
+        <% if @enrollment %>
 
-        <%= button_to "Leave course",
-                      courses_leave_path(@course.id),
-                      method: :delete,
-                      class: "rounded-lg border border-red-900 px-4 py-2 text-sm
+          <%= button_to "Leave course",
+                        courses_leave_path(@course.id),
+                        method: :delete,
+                        class: "rounded-lg border border-red-900 px-4 py-2 text-sm
                               text-red-400 hover:bg-red-950" %>
 
-      <% elsif @course.invite_code.present? %>
+        <% elsif @course.invite_code.present? %>
 
-        <%= link_to "Enter invite code",
-                    courses_invite_enroll_path(@course.id),
-                    class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium
+          <%= link_to "Enter invite code",
+                      courses_invite_enroll_path(@course.id),
+                      class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium
                             text-slate-900 hover:bg-slate-300" %>
 
-      <% else %>
+        <% else %>
 
-        <%= button_to "Enroll",
-                      courses_enroll_path(@course.id),
-                      method: :post,
-                      class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium
+          <%= button_to "Enroll",
+                        courses_enroll_path(@course.id),
+                        method: :post,
+                        class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium
                               text-slate-900 hover:bg-slate-300" %>
 
-      <% end %>
+        <% end %>
 
+      <% end %>
     <% end %>
 
     <%= link_to "Back",
-                courses_list_path,
+                (current_user == @course.teacher || @enrollment) ? my_courses_path : courses_list_path,
                 class: "rounded-lg border border-slate-700 px-4 py-2 text-sm
                         hover:bg-slate-700" %>
   </div>

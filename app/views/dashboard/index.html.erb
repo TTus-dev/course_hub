@@ -8,8 +8,15 @@
       <p class="text-2xl font-semibold">Class schedule</p>
 
       <div class="flex flex-wrap gap-4">
-        <% @upcoming_classes.each do |class_session| %>
-          <%= render "dashboard/class_session_card", class_session: class_session %>
+        <% if @upcoming_classes.any? %>
+          <% @upcoming_classes.each do |class_session| %>
+            <%= render "dashboard/class_session_card",
+                       class_session: class_session %>
+          <% end %>
+        <% else %>
+          <p class="text-sm text-slate-400">
+            No upcoming classes.
+          </p>
         <% end %>
       </div>
     </div>
@@ -21,14 +28,14 @@
       <div class="flex flex-row gap-3">
         <div>
           <%= link_to "+ New course", courses_new_path,
-                      class: "flex min-w-40 items-center justify-center rounded-xl border border-slate-700
-                      bg-slate-800 hover:bg-slate-700 px-3 py-3" %>
+                      class: "flex min-w-32 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 px-4
+                      py-2 text-sm justify-center items-center" %>
         </div>
 
         <div>
           <%= link_to "+ New class", new_class_session_path,
-                      class: "flex min-w-40 items-center justify-center rounded-xl border border-slate-700
-                      bg-slate-800 hover:bg-slate-700 px-3 py-3" %>
+                      class: "flex min-w-32 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 px-4
+                      py-2 text-sm justify-center items-center" %>
         </div>
       </div>
     </div>

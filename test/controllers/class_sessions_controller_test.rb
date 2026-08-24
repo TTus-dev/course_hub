@@ -17,16 +17,18 @@ class ClassSessionsControllerTest < ActionDispatch::IntegrationTest
       password: "password"
     }
 
-    post class_sessions_create_url(courses(:ruby_basics).id, params: {
-      course_id: courses(:ruby_basics).id,
-      topic: "Test Topic",
-      description: "Test Description",
-      platform: "teams",
-      meeting_url: "test_url",
-      starts_at: Time.current,
-      ends_at: Time.current + 2.hours,
-      location_type: "remote"
-    })
+    post class_sessions_create_url, params: {
+      class_session: {
+        course_id: courses(:ruby_basics).id,
+        topic: "Test Topic",
+        description: "Test Description",
+        platform: "teams",
+        meeting_url: "test_url",
+        starts_at: Time.current,
+        ends_at: Time.current + 2.hours,
+        location_type: "remote"
+      }
+    }
     assert_redirected_to courses_manage_path(courses(:ruby_basics).id)
   end
 end

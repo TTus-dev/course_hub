@@ -14,7 +14,7 @@ module DashboardHelper
     start_time = class_session.starts_at
     end_time = class_session.ends_at
 
-    if start_time <= Time.current
+    if start_time <= Time.current && end_time > Time.current
       "Now - #{end_time.strftime("%H:%M")}"
     else
       "#{start_time.strftime("%H:%M")} - #{end_time.strftime("%H:%M")}"

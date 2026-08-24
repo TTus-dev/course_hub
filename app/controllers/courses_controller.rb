@@ -1,14 +1,16 @@
 class CoursesController < ApplicationController
   def index
+    courses = Course.where(archived: false)
+
     visibilities = Array(params[:visibility])
 
     @courses =
       if visibilities.empty? || visibilities.size == 2
-        Course.all
+        courses.all
       elsif visibilities == [ "public" ]
-        Course.where(invite_code: nil)
+        courses.where(invite_code: nil)
       else
-        Course.where.not(invite_code: nil)
+        courses.where.not(invite_code: nil)
       end
   end
 
@@ -32,8 +34,14 @@ class CoursesController < ApplicationController
     @course = Course.find(params[:id])
 
     @upcoming_classes = @course.class_sessions
-                               .where("starts_at >= ?", Time.current)
+                               .where("ends_at > ?", Time.current)
                                .order(:starts_at)
+
+    @past_classes = @course.class_sessions
+                           .where("ends_at <= ?", Time.current)
+                           .order(ends_at: :desc)
+
+    @students = @course.students
 
     if current_user.role == "student"
       @enrollment = @course.enrollments.find_by(user_id: current_user.id)
@@ -56,24 +64,21 @@ class CoursesController < ApplicationController
   end
 
   def archive
-    Course.find(params[:id]).update(archived: true)
+    course = current_user.taught_courses.find(params[:id])
+    course.update!(archived: true)
+
     redirect_to my_courses_path
   end
 
   def reactivate
-    course = Course.find(params[:id])
-
-    course.update(
-      name: course.name,
-      description: course.description,
-      archived: false,
-      )
+    course = current_user.taught_courses.find(params[:id])
+    course.update!(archived: false)
 
     redirect_to my_archived_courses_path
   end
 
   def manage
-    @course = current_user.taught_courses.find(params[:id])
+    @course = current_user.taught_courses.where(archived: false).find(params[:id])
 
     @upcoming_sessions = @course.class_sessions
                                 .where("starts_at > ?", Time.current)

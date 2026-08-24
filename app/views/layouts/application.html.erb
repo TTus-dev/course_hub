@@ -23,14 +23,15 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="min-h-screen bg-slate-900">
-  <div class="flex flex-row">
+  <body class="h-screen overflow-hidden bg-slate-900">
+  <div class="flex h-screen">
     <% if current_user %>
       <%= render "shared/sidebar" %>
     <% end %>
-    <div class="flex flex-1">
+
+    <main class="flex flex-1 overflow-y-auto">
       <%= yield %>
-    </div>
+    </main>
   </div>
   </body>
 </html>

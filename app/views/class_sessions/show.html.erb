@@ -1,0 +1,70 @@
+<div class="flex flex-col w-full p-6 text-slate-100 justify-between">
+  <div class="flex flex-col gap-5">
+    <div>
+      <p class="text-3xl font-semibold">
+        <%= @class_session.topic %>
+      </p>
+      <p class="text-sm font-medium text-slate-400">
+        <%= @class_session.course.name %>
+      </p>
+    </div>
+
+    <% if current_user.role == "student" %>
+      <p class="text-sm font-medium text-slate-400">
+        Instructor:
+        <span class="text-slate-300">
+          <%= @class_session.course.teacher.name %>
+        </span>
+      </p>
+    <% end %>
+
+    <div>
+      <p class="text-xl font-semibold">
+        Description
+      </p>
+      <p class="min-w-0 line-clamp-2 wrap-break-word text-sm text-slate-400 mt-1">
+        <%= @class_session.description %>
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-0.5 text-sm mt-5">
+      <p><%= class_session_date(@class_session) %></p>
+
+      <p><%= class_session_time(@class_session) %></p>
+
+      <% if @class_session.location_type == "remote" %>
+        <p>
+          <%= link_to @class_session.platform,
+                      @class_session.meeting_url,
+                      target: "_blank",
+                      class: "text-blue-400 hover:text-blue-300"
+          %>
+        </p>
+      <% else %>
+        <p class="line-clamp-2">
+          <%= @class_session.city %>, <%= @class_session.street %> <%= @class_session.building_number %>,
+          Room <%= @class_session.room %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="flex gap-3 border-t border-slate-800 pt-6">
+    <% if current_user == @class_session.course.teacher %>
+
+      <%= link_to "Manage class",
+                  edit_class_session_path(@class_session.id),
+                  class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-300" %>
+
+      <%= button_to "Delete",
+                  class_session_destroy_path(@class_session.id),
+                  method: :delete,
+                  class: "rounded-lg border border-red-900 px-4 py-2 text-sm text-red-400 hover:bg-red-950" %>
+
+    <% end %>
+
+    <%= link_to "Back",
+                courses_show_path(@class_session.course_id),
+                class: "rounded-lg border border-slate-700 px-4 py-2 text-sm hover:bg-slate-700" %>
+  </div>
+</div>
