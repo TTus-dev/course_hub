@@ -23,7 +23,7 @@ class ClassSessionsControllerTest < ActionDispatch::IntegrationTest
         topic: "Test Topic",
         description: "Test Description",
         platform: "teams",
-        meeting_url: "test_url",
+        meeting_url: "https://example.com",
         starts_at: Time.current,
         ends_at: Time.current + 2.hours,
         location_type: "remote"

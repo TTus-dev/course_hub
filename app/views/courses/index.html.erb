@@ -16,6 +16,16 @@
         <%= label_tag "visibility_private", "Private", class: "text-md text-slate-300 text-center" %>
       </div>
 
+      <div class="flex items-center gap-2">
+        <%= check_box_tag "include_owned_enrolled",
+                          "1",
+                          params[:include_owned_enrolled] == "1" %>
+
+        <%= label_tag "include_owned_enrolled",
+                      current_user.role == "teacher" ? "Include my courses" : "Include enrolled courses",
+                      class: "text-md text-slate-300 text-center" %>
+      </div>
+
       <%= submit_tag "Filter",
                      class: "rounded-lg border border-slate-700 bg-slate-800 px-2 py-1 text-sm hover:bg-slate-700" %>
     <% end %>

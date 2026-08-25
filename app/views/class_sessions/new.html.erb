@@ -24,9 +24,13 @@
 
   <div class="mt-8 flex border-t border-slate-800 pt-6 pb-2">
     <%= link_to "Cancel",
-                params[:course_id].present? ?
-                  courses_manage_path(params[:course_id]) :
-                  dashboard_path,
+                if params[:return_to] == "show"
+                  courses_show_path(params[:course_id])
+                elsif params[:course_id].present?
+                  courses_manage_path(params[:course_id])
+                else
+                  dashboard_path
+                end,
                 class: "rounded-lg border border-slate-700 px-4 py-2 text-sm
                         hover:bg-slate-700" %>
   </div>

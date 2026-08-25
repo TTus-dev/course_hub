@@ -35,8 +35,9 @@
       <% if @class_session.location_type == "remote" %>
         <p>
           <%= link_to @class_session.platform,
-                      @class_session.meeting_url,
+                      safe_meeting_link(@class_session),
                       target: "_blank",
+                      rel: "noopener noreferrer",
                       class: "text-blue-400 hover:text-blue-300"
           %>
         </p>

@@ -4,8 +4,10 @@ ruby_basics:
   name: Ruby Basics
   description: Learn Ruby
   teacher: teacher
+  archived: false
 
 rails_models:
   name: Rails Models
   description: Learn Rails models
   teacher: teacher
+  archived: false

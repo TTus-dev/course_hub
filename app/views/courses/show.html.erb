@@ -95,7 +95,7 @@
                          class_session: class_session %>
             <% end %>
           <% else %>
-            <p class="mt-4 text-sm text-slate-400">
+            <p class="text-sm text-slate-400">
               No past classes.
             </p>
           <% end %>
@@ -112,6 +112,14 @@
                     courses_manage_path(@course.id),
                     class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium
                           text-slate-900 hover:bg-slate-300" %>
+
+        <%= link_to "Create class",
+                    new_class_session_path(
+                      course_id: @course.id,
+                      return_to: "show"
+                    ),
+                    class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium
+                    text-slate-900 hover:bg-slate-300" %>
 
       <% elsif current_user.role == "student" && !@course.archived? %>
 

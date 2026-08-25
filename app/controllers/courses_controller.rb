@@ -2,6 +2,14 @@ class CoursesController < ApplicationController
   def index
     courses = Course.where(archived: false)
 
+    unless params[:include_owned_enrolled] == "1"
+      if current_user.role == "teacher"
+        courses = courses.where.not(teacher_id: current_user.id)
+      elsif current_user.role == "student"
+        courses = courses.where.not(id: current_user.enrollments.select(:course_id))
+      end
+    end
+
     visibilities = Array(params[:visibility])
 
     @courses =

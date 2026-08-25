@@ -16,6 +16,9 @@ class ClassSession < ApplicationRecord
 
   with_options if: -> { location_type == "remote" } do
     validates :platform, presence: true
-    validates :meeting_url, presence: true
+    validates :meeting_url, presence: true, format: {
+      with: /\Ahttps?:\/\/.+\z/,
+      message: "must be a valid HTTP or HTTPS URL"
+    }
   end
 end

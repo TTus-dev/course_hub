@@ -69,8 +69,11 @@
           </p>
         </div>
 
-        <%= link_to "Create session",
-                      new_class_session_path(course_id: @course.id),
+        <%= link_to "Create class",
+                      new_class_session_path(
+                        course_id: @course.id,
+                        return_to: "manage"
+                      ),
                       method: :get,
                       class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-300" %>
       </div>
