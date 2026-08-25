@@ -6,18 +6,23 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(
-      name: params[:user][:name].capitalize,
-      email: params[:user][:email],
-      password: params[:user][:password],
-      password_confirmation: params[:user][:password_confirmation],
-      role: "student"
-    )
+    @user = User.new(user_params.merge(role: "student"))
 
     if @user.save
       redirect_to root_path, notice: "Account successfully created. You can now log in."
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(
+      :name,
+      :email,
+      :password,
+      :password_confirmation,
+    )
   end
 end

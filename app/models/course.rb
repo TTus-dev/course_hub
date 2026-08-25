@@ -6,4 +6,6 @@ class Course < ApplicationRecord
            source: :user
 
   has_many :class_sessions
+
+  validates :name, presence: true
 end

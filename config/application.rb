@@ -25,5 +25,7 @@ module CourseHub
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.time_zone = "Europe/Warsaw"
+
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }
   end
 end

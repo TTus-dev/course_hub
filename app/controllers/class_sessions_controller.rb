@@ -1,6 +1,6 @@
 class ClassSessionsController < ApplicationController
   def new
-    @taught_courses = current_user.taught_courses
+    @taught_courses = current_user.taught_courses.where(archived: false)
     @class_session = ClassSession.new
 
     if params[:course_id]
@@ -51,7 +51,7 @@ class ClassSessionsController < ApplicationController
 
     class_session.destroy
 
-    redirect_to courses_show_path(course.id)
+    redirect_to courses_manage_path(course.id)
   end
 
   private
@@ -68,7 +68,8 @@ class ClassSessionsController < ApplicationController
       :building_number,
       :room,
       :platform,
-      :meeting_url
+      :meeting_url,
+      :course_id
     )
   end
 end

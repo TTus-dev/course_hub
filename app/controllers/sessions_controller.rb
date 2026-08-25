@@ -13,7 +13,8 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to dashboard_path
     else
-      render plain: "Invalid email or password"
+      flash.now[:alert] = "Invalid email or password"
+      render :new, status: :unprocessable_entity
     end
   end
 

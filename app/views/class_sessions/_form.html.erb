@@ -4,6 +4,12 @@
                      class_session_update_path(@class_session.id),
               class: "mt-5 flex flex-col gap-5" do |form| %>
 
+  <% if @class_session.errors.any? %>
+      <p class="text-sm text-red-400">
+        <%= @class_session.errors.full_messages.first %>
+      </p>
+  <% end %>
+
   <div class="flex flex-col gap-1">
     <%= form.label :course_id,
                    class: "text-sm font-medium text-slate-300" %>

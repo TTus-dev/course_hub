@@ -33,11 +33,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_18_140748) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.boolean "archived"
+    t.boolean "archived", null: false
     t.datetime "created_at", null: false
     t.text "description"
     t.string "invite_code"
-    t.string "name"
+    t.string "name", null: false
     t.bigint "teacher_id", null: false
     t.datetime "updated_at", null: false
     t.index ["teacher_id"], name: "index_courses_on_teacher_id"

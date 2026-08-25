@@ -106,7 +106,7 @@
                             class: "rounded-lg border border-slate-700 px-3 py-2 text-sm hover:bg-slate-700" %>
 
               <%= button_to "Delete",
-                            class_session_destroy_path,
+                            class_session_destroy_path(session.id),
                             method: :delete,
                             class: "rounded-lg border border-red-900 px-3 py-2 text-sm text-red-400 hover:bg-red-950" %>
             </div>

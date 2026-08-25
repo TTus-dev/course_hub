@@ -49,18 +49,22 @@ class CoursesController < ApplicationController
   end
 
   def new
+    @course = Course.new
   end
 
   def create
     new_code = params[:invite_only] == "1" ? SecureRandom.hex(5).upcase : nil
-    Course.create(
-      name: params[:name],
-      description: params[:description],
+    @course = Course.new(course_params.merge(
       teacher_id: current_user.id,
       invite_code: new_code,
       archived: false
-    )
-    redirect_to my_courses_path
+    ))
+
+    if @course.save
+      redirect_to my_courses_path
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def archive
@@ -131,5 +135,14 @@ class CoursesController < ApplicationController
     enrollment.destroy
 
     redirect_to my_courses_path
+  end
+
+  private
+
+  def course_params
+    params.require(:course).permit(
+      :name,
+      :description
+    )
   end
 end
