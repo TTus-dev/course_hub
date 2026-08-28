@@ -1,0 +1,26 @@
+<%= link_to class_session_path(id: class_session, return_to: "schedule"),
+            class: "rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 p-3" do %>
+  <p>
+    <%= class_session.starts_at.strftime("%H:%M") %>
+    -
+    <%= class_session.ends_at.strftime("%H:%M") %>
+  </p>
+
+  <p>
+    <%= class_session.course.name %>
+  </p>
+
+  <p>
+    <%= class_session.topic %>
+  </p>
+
+  <% if class_session.location_type == "remote" %>
+    <p>
+      <%= class_session.platform %>
+    </p>
+  <% else %>
+    <p>
+      Room <%= class_session.room %>
+    </p>
+  <% end %>
+<% end %>

@@ -37,6 +37,8 @@ Rails.application.routes.draw do
   patch "class_session/:id", to: "class_sessions#update", constraints: { id: /\d+/ }, as: "class_session_update"
   delete "class_session/:id", to: "class_sessions#destroy", constraints: { id: /\d+/ }, as: "class_session_destroy"
 
+  get "schedule", to: "class_sessions#schedule", as: "schedule"
+
   get "/dashboard", to: "dashboard#index"
 
   get "/login", to: "sessions#new"

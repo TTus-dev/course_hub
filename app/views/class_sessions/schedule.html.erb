@@ -1,0 +1,61 @@
+<div class="flex w-full flex-col gap-10 p-6 text-slate-100">
+  <p class="text-3xl font-semibold">Schedule</p>
+
+  <div class="flex flex-col gap-5 justify-center">
+    <div class="flex flex-row gap-2">
+      <%= form_with url: schedule_path, method: :get, data: { controller: "date-picker" } do %>
+        <%= date_field_tag :date,
+                           @selected_date,
+                           data: {
+                             action: "change->date-picker#submit"
+                           },
+                           class: "rounded-lg border border-slate-700 bg-slate-800 px-2 py-1 text-sm" %>
+      <% end %>
+
+      <%= link_to "Today",
+                  schedule_path,
+                  class: "rounded-lg border border-slate-700 px-2 py-1 hover:bg-slate-700" %>
+
+    </div>
+
+    <div class="flex flex-row gap-2">
+      <%= link_to "<",
+                  schedule_path(date: @week_start - 7.days),
+                  class: "rounded-lg border border-slate-700 px-1.5 py-0.5 hover:bg-slate-700" %>
+
+      <p class="text-slate-400">
+        <%= @week_start.strftime("%b %-d") %> -
+        <%= @week_end.strftime("%b %-d, %Y") %>
+      </p>
+
+      <%= link_to ">",
+                  schedule_path(date: @week_start + 7.days),
+                  class: "rounded-lg border border-slate-700 px-1.5 py-0.5 hover:bg-slate-700" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-7 h-full">
+    <% (@week_start..@week_end).each do |date| %>
+      <div class="border-r border-slate-700 last:border-r-0">
+        <div class="border-b border-slate-700 p-2">
+          <p class="text-xl font-semibold">
+            <%= date.strftime("%A") %>
+          </p>
+
+          <p class="text-sm text-slate-400">
+            <%= date.strftime("%b %-d") %>
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-2 p-2">
+          <% @class_sessions
+             .select { |session| session.starts_at.to_date == date }
+             .each do |class_session|
+          %>
+            <%= render "class_sessions/calendar_card", class_session: class_session %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

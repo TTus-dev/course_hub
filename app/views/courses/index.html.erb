@@ -34,7 +34,7 @@
   <div class="flex flex-1 flex-col justify-between">
     <div class="flex flex-wrap gap-4">
       <% @courses.each do |course| %>
-        <%= render "courses/course_card", course: course, show_enrollment: true %>
+        <%= render "courses/course_card", course: course, return_to: "all", show_enrollment: true %>
       <% end %>
     </div>
   </div>

@@ -6,7 +6,7 @@
   <div class="flex flex-1 flex-col justify-between">
     <div class="flex flex-wrap gap-4">
       <% @courses.each do |course| %>
-        <%= render "courses/course_card", course: course %>
+        <%= render "courses/course_card", course: course, return_to: "archive" %>
       <% end %>
 
       <% if @courses.empty? %>

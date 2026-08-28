@@ -1,4 +1,6 @@
-<%= link_to class_session_path(class_session.id),
+<% return_to = local_assigns.fetch(:return_to, "dashboard") %>
+
+<%= link_to class_session_path(id: class_session.id, return_to: return_to),
             class: "flex flex-col gap-4 w-80 rounded-xl border border-slate-700
                     bg-slate-800 hover:bg-slate-700 shadow-sm p-4 justify-between" do %>
 

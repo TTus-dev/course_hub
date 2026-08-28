@@ -1,9 +1,9 @@
 <% show_enrollment = local_assigns.fetch(:show_enrollment, false) %>
-
+<% return_to = local_assigns.fetch(:return_to, "all") %>
 
 <div class="flex flex-col w-80 rounded-xl border border-slate-700 bg-slate-800
   shadow-sm justify-between text-slate-100 overflow-hidden">
-  <%= link_to courses_show_path(course.id) do %>
+  <%= link_to courses_show_path(id: course.id, return_to: return_to) do %>
     <div class="flex flex-col hover:bg-slate-700 p-4">
       <p class="text-sm text-slate-400">
         <%= course.invite_code.present? ? "Invite only" : "Public course" %>
@@ -28,46 +28,45 @@
     </div>
   <% end %>
 
-  <% if current_user.role == "teacher" || show_enrollment %>
+  <% if (current_user.role == "teacher" && current_user == course.teacher)
+        || (current_user.role == "student" && show_enrollment) %>
     <div class="flex flex-row gap-2 text-sm justify-end items-center p-3 border-t border-slate-700">
 
-      <% if current_user == course.teacher %>
-        <% if course.archived? %>
+      <% if course.archived? %>
 
-          <%= button_to "Reactivate",
-                        courses_reactivate_path(course.id),
-                        method: :patch,
-                        data: { turbo: false },
-                        onclick: "return confirm('Reactivate this course?');",
-                        class: "rounded-lg border border-green-900 px-3 py-2
+        <%= button_to "Reactivate",
+                      courses_reactivate_path(course.id),
+                      method: :patch,
+                      data: { turbo: false },
+                      onclick: "return confirm('Reactivate this course?');",
+                      class: "rounded-lg border border-green-900 px-3 py-2
                       text-green-400 hover:bg-green-950" %>
-        <% else %>
-          <%= link_to "Manage",
-                      courses_manage_path(course.id),
-                      class: "rounded-lg border border-slate-700 px-3 py-2
+      <% else %>
+        <%= link_to "Manage",
+                    courses_manage_path(course.id),
+                    class: "rounded-lg border border-slate-700 px-3 py-2
                           hover:bg-slate-700" %>
 
-          <%= button_to "Archive",
-                        courses_archive_path(course.id),
-                        method: :delete,
-                        data: { turbo: false },
-                        onclick: "return confirm('Reactivate this course?');",
-                        class: "rounded-lg border border-red-900 px-3 py-2
+        <%= button_to "Archive",
+                      courses_archive_path(course.id),
+                      method: :delete,
+                      data: { turbo: false },
+                      onclick: "return confirm('Reactivate this course?');",
+                      class: "rounded-lg border border-red-900 px-3 py-2
                           text-red-400 hover:bg-red-950" %>
-        <% end %>
-
-      <% elsif current_user.role == "student" %>
-        <% if Enrollment.exists?(course_id: course.id, user_id: current_user.id) %>
-          <p class="text-sm text-slate-400 text-center">
-            Enrolled
-          </p>
-        <% else %>
-          <p class="text-sm text-slate-400 text-center">
-            Not enrolled
-          </p>
-        <% end %>
       <% end %>
 
-    </div>
+  <% elsif current_user.role == "student" %>
+    <% if Enrollment.exists?(course_id: course.id, user_id: current_user.id) %>
+      <p class="text-sm text-slate-400 text-center">
+        Enrolled
+      </p>
+    <% else %>
+      <p class="text-sm text-slate-400 text-center">
+        Not enrolled
+      </p>
+    <% end %>
   <% end %>
+
+  </div>
 </div>

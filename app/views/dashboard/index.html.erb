@@ -10,8 +10,7 @@
       <div class="flex flex-wrap gap-4">
         <% if @upcoming_classes.any? %>
           <% @upcoming_classes.each do |class_session| %>
-            <%= render "dashboard/class_session_card",
-                       class_session: class_session %>
+            <%= render "dashboard/class_session_card", class_session: class_session, return_to: "dashboard" %>
           <% end %>
         <% else %>
           <p class="text-sm text-slate-400">

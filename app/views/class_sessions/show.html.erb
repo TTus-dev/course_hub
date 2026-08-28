@@ -58,14 +58,25 @@
                   class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-300" %>
 
       <%= button_to "Delete",
-                  class_session_destroy_path(@class_session.id),
-                  method: :delete,
-                  class: "rounded-lg border border-red-900 px-4 py-2 text-sm text-red-400 hover:bg-red-950" %>
+                    class_session_destroy_path(@class_session.id),
+                    method: :delete,
+                    class: "rounded-lg border border-red-900 px-4 py-2 text-sm text-red-400 hover:bg-red-950" %>
 
     <% end %>
 
     <%= link_to "Back",
-                courses_show_path(@class_session.course_id),
+                case params[:return_to]
+                when "dashboard"
+                  dashboard_path
+                when "course"
+                  courses_show_path(@class_session.course)
+                when "manage"
+                  courses_manage_path(@class_session.course)
+                when "schedule"
+                  schedule_path
+                else
+                  dashboard_path
+                end,
                 class: "rounded-lg border border-slate-700 px-4 py-2 text-sm hover:bg-slate-700" %>
   </div>
 </div>

@@ -54,6 +54,25 @@ class ClassSessionsController < ApplicationController
     redirect_to courses_manage_path(course.id)
   end
 
+  def schedule
+    @selected_date = params[:date].present? ? Date.parse(params[:date]) : Date.current
+
+    @week_start = @selected_date.beginning_of_week
+    @week_end = @selected_date.end_of_week
+
+    courses =
+      if current_user.role == "teacher"
+        current_user.taught_courses.where(archived: false)
+      elsif current_user.role == "student"
+        current_user.courses.where(archived: false)
+      end
+
+    @class_sessions = ClassSession
+      .where(course: courses)
+      .where(starts_at: @week_start.beginning_of_day..@week_end.end_of_day)
+      .order(:starts_at)
+  end
+
   private
 
   def class_session_params

@@ -72,8 +72,7 @@
         <div class="mt-4 flex flex-wrap gap-4">
           <% if @upcoming_classes.any? %>
             <% @upcoming_classes.each do |class_session| %>
-              <%= render "dashboard/class_session_card",
-                         class_session: class_session %>
+              <%= render "dashboard/class_session_card", class_session: class_session, return_to: "course" %>
             <% end %>
           <% else %>
             <p class="text-sm text-slate-400">
@@ -91,8 +90,7 @@
         <div class="mt-4 flex flex-wrap gap-4">
           <% if @past_classes.any? %>
             <% @past_classes.each do |class_session| %>
-              <%= render "dashboard/class_session_card",
-                         class_session: class_session %>
+              <%= render "dashboard/class_session_card", class_session: class_session, return_to: "course" %>
             <% end %>
           <% else %>
             <p class="text-sm text-slate-400">
@@ -152,7 +150,14 @@
     <% end %>
 
     <%= link_to "Back",
-                (current_user == @course.teacher || @enrollment) ? my_courses_path : courses_list_path,
+                case params[:return_to]
+                when "all"
+                  courses_list_path
+                when "my"
+                  my_courses_path
+                else
+                  my_archived_courses_path
+                end,
                 class: "rounded-lg border border-slate-700 px-4 py-2 text-sm
                         hover:bg-slate-700" %>
   </div>
