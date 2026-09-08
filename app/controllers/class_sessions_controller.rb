@@ -3,13 +3,13 @@ class ClassSessionsController < ApplicationController
     @taught_courses = current_user.taught_courses.where(archived: false)
     @class_session = ClassSession.new
 
-    if params[:course_id]
-      @class_session.course_id = params[:course_id]
-    end
-
     now = Time.current
     @class_session.starts_at = (now + 1.hour).change(min: 0)
     @class_session.ends_at = @class_session.starts_at + 2.hours
+
+    if params[:course_id]
+      @class_session.course_id = params[:course_id]
+    end
   end
 
   def create

@@ -7,5 +7,7 @@ class Course < ApplicationRecord
 
   has_many :class_sessions
 
+  has_many :assignments
+
   validates :name, presence: true
 end

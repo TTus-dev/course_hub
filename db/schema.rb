@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_18_140748) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_01_141044) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "assignments", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.datetime "due_at"
+    t.string "topic"
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_assignments_on_course_id"
+  end
 
   create_table "class_sessions", force: :cascade do |t|
     t.string "building_number"
@@ -33,11 +43,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_18_140748) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.boolean "archived", null: false
+    t.boolean "archived"
     t.datetime "created_at", null: false
     t.text "description"
     t.string "invite_code"
-    t.string "name", null: false
+    t.string "name"
     t.bigint "teacher_id", null: false
     t.datetime "updated_at", null: false
     t.index ["teacher_id"], name: "index_courses_on_teacher_id"
@@ -61,6 +71,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_18_140748) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "assignments", "courses"
   add_foreign_key "class_sessions", "courses"
   add_foreign_key "courses", "users", column: "teacher_id"
   add_foreign_key "enrollments", "courses"

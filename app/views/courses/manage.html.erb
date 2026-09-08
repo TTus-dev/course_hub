@@ -70,12 +70,12 @@
         </div>
 
         <%= link_to "Create class",
-                      new_class_session_path(
-                        course_id: @course.id,
-                        return_to: "manage"
-                      ),
-                      method: :get,
-                      class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-300" %>
+                    new_class_session_path(
+                      course_id: @course.id,
+                      return_to: "manage"
+                    ),
+                    method: :get,
+                    class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-300" %>
       </div>
 
       <div class="mt-4 flex flex-col gap-3">
@@ -116,10 +116,76 @@
           </div>
         <% end %>
 
-        <% if @course.class_sessions.empty? %>
+        <% if @course.class_sessions.where("ends_at > ?", Time.current).none? %>
           <p class="rounded-xl border border-slate-700 bg-slate-800 p-4
                     text-sm text-slate-400">
             No class sessions yet.
+          </p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="max-w-4xl">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xl font-semibold">
+            Assignments
+          </p>
+
+          <p class="mt-1 text-sm text-slate-400">
+            Manage the assignments belonging to this course.
+          </p>
+        </div>
+
+        <%= link_to "Create assignment",
+                    new_assignment_path(
+                      course_id: @course.id,
+                      return_to: "manage"
+                    ),
+                    method: :get,
+                    class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-300" %>
+      </div>
+
+      <div class="mt-4 flex flex-col gap-3">
+        <% @upcoming_assignments.each do |assignment| %>
+          <div class="flex items-center justify-between rounded-xl border border-slate-700 bg-slate-800 p-4">
+
+            <div class="flex flex-col gap-1">
+              <p class="font-medium text-slate-100">
+                <%= assignment.topic %>
+              </p>
+
+              <p class="text-sm text-slate-400">
+                <% if assignment.due_at.present? %>
+                  Due: <%= assignment.due_at.strftime("%d %b %Y, %H:%M") %>
+                <% else %>
+                  No deadline
+                <% end %>
+              </p>
+            </div>
+
+            <div class="flex gap-2">
+              <%= link_to "View",
+                          assignment_path(assignment),
+                          class: "rounded-lg border border-slate-700 px-3 py-2 text-sm hover:bg-slate-700" %>
+
+              <%= button_to "Edit",
+                            edit_assignment_path(assignment),
+                            method: :get,
+                            class: "rounded-lg border border-slate-700 px-3 py-2 text-sm hover:bg-slate-700" %>
+
+              <%= button_to "Delete",
+                            assignment_path(assignment),
+                            method: :delete,
+                            class: "rounded-lg border border-red-900 px-3 py-2 text-sm text-red-400 hover:bg-red-950" %>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @course.assignments.empty? %>
+          <p class="rounded-xl border border-slate-700 bg-slate-800 p-4
+                    text-sm text-slate-400">
+            No assignments yet.
           </p>
         <% end %>
       </div>

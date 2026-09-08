@@ -1,0 +1,61 @@
+<%= form_with model: assignment,
+              url: @assignment.new_record? ?
+                     assignments_path(@assignment) :
+                     assignment_path(@assignment),
+              class: "mt-5 flex flex-col gap-5" do |form| %>
+
+  <% if @assignment.errors.any? %>
+    <p class="text-sm text-red-400">
+      <%= @assignment.errors.full_messages.first %>
+    </p>
+  <% end %>
+
+  <div class="flex flex-col gap-1">
+    <%= form.label :course_id,
+                   class: "text-sm font-medium text-slate-300" %>
+
+    <%= form.collection_select :course_id,
+                               @taught_courses,
+                               :id,
+                               :name,
+                               {},
+                               class: "rounded-lg border border-slate-700
+                                             bg-slate-900 px-3 py-2 text-slate-100
+                                             outline-none focus:border-slate-500" %>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <%= form.label :topic,
+                   class: "text-sm font-medium text-slate-300" %>
+
+    <%= form.text_field :topic,
+                        class: "rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 outline-none
+                                focus:border-slate-500" %>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <%= form.label :description,
+                   class: "text-sm font-medium text-slate-300" %>
+
+    <%= form.text_area :description,
+                       rows: 6,
+                       class: "resize-none rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 outline-none
+                               focus:border-slate-500" %>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <%= form.label :due_at,
+                   "Due date",
+                   class: "text-sm font-medium text-slate-300" %>
+
+    <%= form.datetime_local_field :due_at,
+                                  class: "rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 outline-none
+                                          focus:border-slate-500" %>
+  </div>
+
+  <div>
+    <%= form.submit submit_text,
+                    class: "rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium
+                            text-slate-900 hover:bg-slate-300" %>
+  </div>
+<% end %>

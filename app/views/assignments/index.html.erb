@@ -1,0 +1,38 @@
+<div class="flex w-full flex-col gap-10 p-6 text-slate-100">
+  <div>
+    <p class="text-3xl font-semibold">Assignments</p>
+    <p class="mt-1 text-sm text-gray-400">
+      Assignments from your courses.
+    </p>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <% @assignments.each do |assignment| %>
+      <%= link_to assignment_path(assignment),
+                  class: "block rounded-lg border border-slate-700 bg-slate-800 p-4 hover:bg-slate-700" do %>
+        <div class="flex items-center justify-between">
+          <div>
+            <p>
+              <%= assignment.topic %>
+            </p>
+
+            <p>
+              <%= assignment.course.name %>
+            </p>
+          </div>
+
+          <div>
+            <% if assignment.due_at.present? %>
+              <p>Due</p>
+              <p>
+                <%= assignment.due_at.strftime("%d %b %Y, %H:%M") %>
+              </p>
+            <% else %>
+              <p>No deadline</p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="flex w-full flex-col p-6 text-slate-100 justify-between">
+  <div class="flex flex-col gap-8">
+
+    <div>
+      <p class="text-3xl font-semibold">
+        Edit assignment
+      </p>
+
+      <p class="mt-1 text-sm text-slate-400">
+        <%= @assignment.topic %>
+      </p>
+    </div>
+
+    <div class="max-w-2xl rounded-xl border border-slate-700 bg-slate-800 p-6">
+
+      <p class="text-xl font-semibold">
+        Assignment details
+      </p>
+
+      <%= render "form",
+                 assignment: @assignment,
+                 submit_text: "Save changes" %>
+
+    </div>
+
+  </div>
+
+  <div class="mt-8 flex gap-3 border-t border-slate-800 pt-6">
+
+    <%= link_to "Back to assignment",
+                assignment_path(@assignment),
+                class: "rounded-lg border border-slate-700 px-4 py-2 text-sm
+                        hover:bg-slate-700" %>
+
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="flex w-full flex-col p-6 text-slate-100 justify-between">
+  <div class="flex flex-col gap-8">
+
+    <div>
+      <p class="text-3xl font-semibold">
+        <%= @assignment.topic %>
+      </p>
+
+      <p class="mt-1 text-sm text-slate-400">
+        <%= @assignment.course.name %>
+      </p>
+    </div>
+
+    <div class="max-w-2xl rounded-xl border border-slate-700 bg-slate-800 p-6">
+
+      <p class="text-xl font-semibold">
+        Assignment details
+      </p>
+
+      <div class="mt-5 flex flex-col gap-5">
+
+        <div>
+          <p class="text-sm font-medium text-slate-400">
+            Description
+          </p>
+
+          <p class="mt-1 text-sm text-slate-200">
+            <%= @assignment.description.presence || "No description provided." %>
+          </p>
+        </div>
+
+        <div>
+          <p class="text-sm font-medium text-slate-400">
+            Due date
+          </p>
+
+          <p class="mt-1 text-sm text-slate-200">
+            <%= @assignment.due_at ? @assignment.due_at.strftime("%d %B %Y, %H:%M") : "No deadline" %>
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="mt-8 flex gap-3 border-t border-slate-800 pt-6">
+
+    <%= link_to "Back to course",
+                courses_show_path(@assignment.course_id),
+                class: "rounded-lg border border-slate-700 px-4 py-2 text-sm
+                        hover:bg-slate-700" %>
+
+    <% if current_user.role == "teacher" %>
+      <%= link_to "Edit assignment",
+                  edit_assignment_path(@assignment),
+                  class: "rounded-lg bg-slate-700 px-4 py-2 text-sm
+                        hover:bg-slate-600" %>
+    <% end %>
+
+  </div>
+</div>

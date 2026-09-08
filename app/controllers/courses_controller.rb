@@ -51,6 +51,8 @@ class CoursesController < ApplicationController
 
     @students = @course.students
 
+    @assignments = @course.assignments.order(:due_at)
+
     if current_user.role == "student"
       @enrollment = @course.enrollments.find_by(user_id: current_user.id)
     end
@@ -95,6 +97,10 @@ class CoursesController < ApplicationController
     @upcoming_sessions = @course.class_sessions
                                 .where("starts_at > ?", Time.current)
                                 .order(:starts_at)
+
+    @upcoming_assignments = @course.assignments
+                                   .where("due_at IS NULL OR due_at > ?", Time.current)
+                                   .order(:due_at)
   end
 
   def update
