@@ -15,6 +15,7 @@ class AssignmentsController < ApplicationController
 
   def show
     @assignment = Assignment.find(params[:id])
+    @submission = @assignment.submissions.find_by(user_id: current_user.id)
   end
 
   def new
@@ -22,7 +23,7 @@ class AssignmentsController < ApplicationController
 
     @assignment = Assignment.new
 
-    @assignment.due_at = (Time.current + 7.days)
+    @assignment.due_at = (Time.current + 7.days).change(min: 0, sec: 0)
 
     if params[:course_id]
       @assignment.course_id = params[:course_id]

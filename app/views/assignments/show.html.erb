@@ -43,6 +43,77 @@
 
     </div>
 
+    <% if current_user.role == "student" %>
+      <div class="max-w-2xl rounded-xl border border-slate-700 bg-slate-800 p-6">
+
+        <p class="text-xl font-semibold">
+          Your submission
+        </p>
+
+        <% if @submission && !params[:edit_submission] %>
+
+          <div class="mt-5">
+            <p class="whitespace-pre-wrap wrap-break-word text-sm text-slate-200">
+              <%= @submission.content %>
+            </p>
+
+            <p class="mt-4 text-sm text-slate-400">
+              Submitted:
+              <%= @submission.submitted_at.strftime("%d %B %Y, %H:%M") %>
+            </p>
+
+            <% unless @assignment.overdue? %>
+              <%= link_to "Edit submission",
+                          assignment_path(@assignment, edit_submission: true),
+                          class: "mt-5 inline-block rounded-lg bg-slate-700 px-4 py-2 text-sm
+                    hover:bg-slate-600" %>
+            <% end %>
+          </div>
+
+        <% else %>
+
+          <% if @assignment.overdue? %>
+            <p class="mt-5 text-sm text-slate-400">
+              The deadline for this assignment has passed.
+            </p>
+
+          <% else %>
+
+            <%= form_with model: [@assignment, @submission || Submission.new],
+                          class: "mt-5 flex flex-col gap-5" do |form| %>
+
+              <div>
+                <%= form.label :content,
+                               "Your answer",
+                               class: "block text-sm font-medium text-slate-300" %>
+
+                <%= form.text_area :content,
+                                   rows: 8,
+                                   class: "mt-2 w-full rounded-lg border border-slate-700
+                                     bg-slate-900 px-3 py-2 text-sm text-slate-100
+                                     placeholder-slate-500 focus:border-slate-500
+                                     focus:outline-none",
+                                   placeholder: "Write your submission..." %>
+              </div>
+
+              <div class="flex gap-3">
+                <%= form.submit(@submission ? "Save changes" : "Submit assignment",
+                                class: "rounded-lg bg-slate-200 px-4 py-2 text-sm
+                              font-medium text-slate-900 hover:bg-slate-300") %>
+
+                <% if @submission %>
+                  <%= link_to "Cancel",
+                              assignment_path(@assignment),
+                              class: "rounded-lg border border-slate-700 px-4 py-2 text-sm
+                            hover:bg-slate-700" %>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
   </div>
 
   <div class="mt-8 flex gap-3 border-t border-slate-800 pt-6">
