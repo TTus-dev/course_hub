@@ -2,7 +2,7 @@
 
 one:
   assignment: one
-  student: one
+  student: student
   content: MyText
   submitted_at: 2026-09-14 15:15:00
   grade: 1
@@ -10,7 +10,7 @@ one:
 
 two:
   assignment: two
-  student: two
+  student: student
   content: MyText
   submitted_at: 2026-09-14 15:15:00
   grade: 1

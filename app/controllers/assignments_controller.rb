@@ -16,6 +16,10 @@ class AssignmentsController < ApplicationController
   def show
     @assignment = Assignment.find(params[:id])
     @submission = @assignment.submissions.find_by(user_id: current_user.id)
+
+    if current_user.role == "teacher"
+      @students = @assignment.course.students
+    end
   end
 
   def new

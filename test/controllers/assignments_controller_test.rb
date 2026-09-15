@@ -2,32 +2,42 @@ require "test_helper"
 
 class AssignmentsControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get assignments_index_url
+    post login_path, params: {
+      email: users(:student).email,
+      password: "password"
+    }
+
+    get assignments_url
     assert_response :success
   end
 
   test "should get show" do
-    get assignments_show_url
+    post login_path, params: {
+      email: users(:student).email,
+      password: "password"
+    }
+
+    get assignment_url(assignments(:one))
     assert_response :success
   end
 
   test "should get new" do
-    get assignments_new_url
-    assert_response :success
-  end
+    post login_path, params: {
+      email: users(:teacher).email,
+      password: "password"
+    }
 
-  test "should get create" do
-    get assignments_create_url
+    get new_assignment_url
     assert_response :success
   end
 
   test "should get edit" do
-    get assignments_edit_url
-    assert_response :success
-  end
+    post login_path, params: {
+      email: users(:teacher).email,
+      password: "password"
+    }
 
-  test "should get delete" do
-    get assignments_delete_url
+    get edit_assignment_url(assignments(:one))
     assert_response :success
   end
 end

@@ -52,7 +52,7 @@ Rails.application.routes.draw do
   resources :assignments
 
   resources :assignments do
-    resources :submissions, only: [:create, :update]
+    resources :submissions, only: [ :create, :update ]
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

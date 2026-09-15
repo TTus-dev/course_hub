@@ -4,40 +4,60 @@
   </div>
 
   <div class="flex flex-1 flex-col justify-between">
-    <div class="flex flex-col gap-3">
-      <p class="text-2xl font-semibold">Class schedule</p>
+    <div class="flex flex-col gap-15">
+      <div class="flex flex-col gap-3">
+        <p class="text-2xl font-semibold">Class schedule</p>
 
-      <div class="flex flex-wrap gap-4">
-        <% if @upcoming_classes.any? %>
-          <% @upcoming_classes.each do |class_session| %>
-            <%= render "dashboard/class_session_card", class_session: class_session, return_to: "dashboard" %>
+        <div class="flex flex-wrap gap-4">
+          <% if @upcoming_classes.any? %>
+            <% @upcoming_classes.each do |class_session| %>
+              <%= render "dashboard/class_session_card", class_session: class_session, return_to: "dashboard" %>
+            <% end %>
+          <% else %>
+            <p class="text-sm h-60 text-slate-400 mb-5">
+              No upcoming classes.
+            </p>
           <% end %>
-        <% else %>
-          <p class="text-sm text-slate-400">
-            No upcoming classes.
-          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <p class="text-2xl font-semibold">Assignments</p>
+
+        <% if current_user.role == "student" %>
+          <div class="flex flex-wrap gap-4">
+            <% if @upcoming_assignments.any? %>
+              <% @upcoming_assignments.each do |assignment| %>
+                <%= render "dashboard/assignment_card", assignment: assignment %>
+              <% end %>
+            <% else %>
+              <p class="text-sm text-slate-400">
+                No upcoming assignments.
+              </p>
+            <% end %>
+          </div>
         <% end %>
       </div>
     </div>
 
     <% if current_user.role == "teacher" %>
-    <div class="flex flex-col gap-4">
-      <p class="text-2xl font-semibold">Quick actions</p>
+      <div class="flex flex-col gap-4">
+        <p class="text-2xl font-semibold">Quick actions</p>
 
-      <div class="flex flex-row gap-3">
-        <div>
-          <%= link_to "+ New course", courses_new_path,
-                      class: "flex min-w-32 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 px-4
+        <div class="flex flex-row gap-3">
+          <div>
+            <%= link_to "+ New course", courses_new_path,
+                        class: "flex min-w-32 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 px-4
                       py-2 text-sm justify-center items-center" %>
-        </div>
+          </div>
 
-        <div>
-          <%= link_to "+ New class", new_class_session_path,
-                      class: "flex min-w-32 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 px-4
+          <div>
+            <%= link_to "+ New class", new_class_session_path,
+                        class: "flex min-w-32 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 px-4
                       py-2 text-sm justify-center items-center" %>
+          </div>
         </div>
       </div>
-    </div>
     <% end %>
   </div>
 </div>

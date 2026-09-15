@@ -4,10 +4,10 @@ one:
   topic: MyString
   description: MyText
   due_at: 2026-09-01 16:10:44
-  course: one
+  course: ruby_basics
 
 two:
   topic: MyString
   description: MyText
   due_at: 2026-09-01 16:10:44
-  course: two
+  course: rails_models
