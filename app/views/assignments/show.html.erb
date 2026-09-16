@@ -24,7 +24,7 @@
             Description
           </p>
 
-          <p class="mt-1 text-sm text-slate-200">
+          <p class="mt-1 text-sm">
             <%= @assignment.description.presence || "No description provided." %>
           </p>
         </div>
@@ -34,7 +34,7 @@
             Due date
           </p>
 
-          <p class="mt-1 text-sm text-slate-200">
+          <p class="mt-1 text-sm">
             <%= @assignment.due_at ? @assignment.due_at.strftime("%d %B %Y, %H:%M") : "No deadline" %>
           </p>
         </div>
@@ -112,9 +112,8 @@
           <% end %>
         <% end %>
       </div>
-    <% end %>
 
-    <% if current_user.role == "teacher" %>
+    <% else %>
       <div class="max-w-2xl rounded-xl border border-slate-700 bg-slate-800 p-6">
 
         <p class="text-xl font-semibold">
@@ -126,21 +125,39 @@
           <% @students.each do |student| %>
             <% submission = @assignment.submissions.find_by(user_id: student.id) %>
 
-            <div class="flex items-center justify-between rounded-lg border border-slate-700 p-4">
-              <p class="text-sm text-slate-200">
-                <%= student.name %>
-              </p>
+            <% if submission %>
+              <%= link_to assignment_submission_path(@assignment, submission),
+                          class: "flex items-center justify-between rounded-lg border border-slate-700 p-4
+                        hover:bg-slate-700" do %>
 
-              <% if submission %>
-                <p class="text-sm text-green-400">
-                  Submitted
+                <p class="text-sm">
+                  <%= student.name %>
                 </p>
-              <% else %>
+
+                <% if submission.grade.present? %>
+                  <p class="text-sm">
+                    Grade: <%= submission.grade %>
+                  </p>
+                <% else %>
+                  <p class="text-sm text-green-400">
+                    Submitted
+                  </p>
+                <% end %>
+
+              <% end %>
+            <% else %>
+              <div class="flex items-center justify-between rounded-lg border border-slate-700 p-4">
+
+                <p class="text-sm">
+                  <%= student.name %>
+                </p>
+
                 <p class="text-sm text-slate-500">
                   Not submitted
                 </p>
-              <% end %>
-            </div>
+
+              </div>
+            <% end %>
           <% end %>
 
         </div>

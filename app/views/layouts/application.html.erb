@@ -30,6 +30,13 @@
     <% end %>
 
     <main class="flex flex-1 overflow-y-auto">
+      <% if notice %>
+        <div data-controller="flash"
+             class="absolute left-6 right-6 top-6 z-10 -translate-y-full opacity-0 rounded-lg border
+             border-green-800 bg-green-900 px-4 py-3 text-sm text-green-300 transition-all duration-500">
+          <%= notice %>
+        </div>
+      <% end %>
       <%= yield %>
     </main>
   </div>

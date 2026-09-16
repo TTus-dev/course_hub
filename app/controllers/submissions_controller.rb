@@ -19,14 +19,20 @@ class SubmissionsController < ApplicationController
     @submission = @assignment.submissions.find(params[:id])
 
     if @submission.update(submission_params)
-      redirect_to assignment_path(@assignment)
+      redirect_to assignment_submission_path(@assignment, @submission),
+      notice: "Grade saved."
     else
-      render "assignments/show", status: :unprocessable_entity
+      render :show, status: :unprocessable_entity
     end
   end
+
+  def show
+    @submission = Submission.find(params[:id])
+  end
+
   private
 
   def submission_params
-    params.require(:submission).permit(:content)
+    params.require(:submission).permit(:content, :grade, :feedback)
   end
 end

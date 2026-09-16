@@ -22,9 +22,10 @@
       </div>
 
       <div class="flex flex-col gap-3">
-        <p class="text-2xl font-semibold">Assignments</p>
 
         <% if current_user.role == "student" %>
+          <p class="text-2xl font-semibold">Assignments</p>
+
           <div class="flex flex-wrap gap-4">
             <% if @upcoming_assignments.any? %>
               <% @upcoming_assignments.each do |assignment| %>
@@ -35,6 +36,24 @@
                 No upcoming assignments.
               </p>
             <% end %>
+          </div>
+        <% end %>
+
+        <% if current_user.role == "teacher" %>
+          <div class="flex flex-col gap-3">
+            <p class="text-2xl font-semibold">Assignments to grade</p>
+
+            <div class="flex flex-wrap gap-4">
+              <% if @assignments_to_grade.any? %>
+                <% @assignments_to_grade.each do |assignment| %>
+                  <%= render "dashboard/assignment_to_grade_card", assignment: assignment %>
+                <% end %>
+              <% else %>
+                <p class="text-sm text-slate-400">
+                  No assignments to grade.
+                </p>
+              <% end %>
+            </div>
           </div>
         <% end %>
       </div>

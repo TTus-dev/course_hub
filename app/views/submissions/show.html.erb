@@ -1,0 +1,95 @@
+<div class="flex min-h-screen w-full flex-col justify-between p-6 text-slate-100">
+
+  <div class="flex flex-col gap-8">
+
+    <div>
+      <p class="text-3xl font-semibold">
+        <%= @submission.student.name %>
+      </p>
+
+      <p class="mt-1 text-sm text-slate-400">
+        <%= @submission.assignment.topic %>
+      </p>
+
+      <p class="mt-1 text-sm text-slate-400">
+        Due:
+        <%= @submission.assignment.due_at.strftime("%d %B %Y, %H:%M") %>
+      </p>
+    </div>
+
+    <div class="max-w-2xl rounded-xl border border-slate-700 bg-slate-800 p-6">
+
+      <p class="text-xl font-semibold">
+        Submission
+      </p>
+
+      <div class="mt-5">
+
+        <p class="whitespace-pre-wrap wrap-break-word text-sm text-slate-200">
+          <%= @submission.content %>
+        </p>
+
+        <p class="mt-5 text-sm text-slate-400">
+          Submitted:
+          <%= @submission.submitted_at.strftime("%d %B %Y, %H:%M") %>
+        </p>
+
+      </div>
+
+    </div>
+
+    <% if @submission.assignment.overdue? %>
+
+      <div class="max-w-2xl rounded-xl border border-slate-700 bg-slate-800 p-6">
+
+        <p class="text-xl font-semibold">
+          Grade submission
+        </p>
+
+        <%= form_with model: [@submission.assignment, @submission],
+                      class: "mt-5 flex flex-col gap-5" do |form| %>
+
+          <div class="flex flex-col gap-2">
+
+            <%= form.label :grade, class: "text-sm text-slate-300" %>
+
+            <%= form.text_field :grade,
+                                placeholder: "e.g. 5, 4.5, A, 85%, Pass",
+                                class: "rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 outline-none
+                            focus:border-slate-500" %>
+
+          </div>
+
+          <div class="flex flex-col gap-2">
+
+            <%= form.label :feedback, class: "text-sm text-slate-300" %>
+
+            <%= form.text_area :feedback,
+                               rows: 10,
+                               class: "rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 outline-none
+                                   focus:border-slate-500 resize-none" %>
+
+          </div>
+
+          <%= form.submit "Save grade",
+                          class: "self-start rounded-lg bg-slate-700 px-4 py-2 text-sm
+                              hover:bg-slate-600" %>
+
+        <% end %>
+
+      </div>
+
+    <% end %>
+
+  </div>
+
+  <div class="mt-8 flex gap-3 border-t border-slate-800 pt-6">
+
+    <%= link_to "Back to assignment",
+                assignment_path(@submission.assignment),
+                class: "rounded-lg border border-slate-700 px-4 py-2 text-sm
+                        hover:bg-slate-700" %>
+
+  </div>
+
+</div>

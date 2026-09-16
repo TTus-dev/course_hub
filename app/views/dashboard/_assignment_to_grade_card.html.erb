@@ -1,0 +1,30 @@
+<%= link_to assignment_path(assignment.id),
+            class: "flex h-50 w-80 flex-col justify-between gap-4 rounded-xl border border-slate-700
+                    bg-slate-800 p-4 shadow-sm hover:bg-slate-700" do %>
+
+  <div>
+    <p class="text-sm font-medium text-slate-400">
+      <%= assignment.course.name %>
+    </p>
+
+    <p class="mt-2 min-w-0 line-clamp-2 wrap-break-word text-xl font-semibold text-slate-100">
+      <%= assignment.topic %>
+    </p>
+
+    <p class="mt-1 min-w-0 line-clamp-2 wrap-break-word text-sm text-slate-400">
+      <%= assignment.description %>
+    </p>
+  </div>
+
+  <div class="mt-5 flex flex-col gap-0.5 text-sm">
+    <p>
+      Due:
+      <%= assignment.due_at.strftime("%d %B %Y, %H:%M") %>
+    </p>
+
+    <p>
+      Graded <%= assignment.graded_count %>/<%= assignment.total_count %>
+    </p>
+  </div>
+
+<% end %>
